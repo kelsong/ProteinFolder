@@ -16,6 +16,18 @@ public class AAcid {
 		this_acid = init; 
 	}
 	
+	public boolean isAcidHydrophobic()
+	{
+		if(getAcidType()==AcidType.NONPOLAR)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public AcidType getAcidType(){
 		switch(this_acid){
 			//NON-POLAR AMINO ACIDS 
