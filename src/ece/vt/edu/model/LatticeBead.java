@@ -54,4 +54,9 @@ public class LatticeBead {
 	public LatticeSite getLocation(){
 		return location;
 	}
+	
+	public AAcid getAcid()
+	{
+		return acid;
+	}
 }
