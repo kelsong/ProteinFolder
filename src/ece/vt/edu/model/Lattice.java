@@ -15,6 +15,7 @@ public class Lattice {
 	                                      // this.
 	LatticeSite[] lattice;
 	LatticeBead head;
+	LatticeBead tail;
 	
 	public Lattice() {
 		lattice = new LatticeSite[lattice_size * lattice_size];
@@ -68,70 +69,41 @@ public class Lattice {
 		}
 	}
 	
+	public LatticeSite getLatticeSite(GridLocation loc){
+		if(isLattice2D())
+		{
+			return lattice[loc.getX() * lattice_size + loc.getY()];
+		}
+		else
+		{
+			return lattice[loc.getX() * lattice_size * lattice_size + loc.getY() * lattice_size + loc.getZ()];
+		}
+	}
+	
+	public ArrayList<LatticeBead> getAdjacentBeads(LatticeBead bead){
+		ArrayList<LatticeBead> adjacent_beads = new ArrayList<LatticeBead>();
+		
+		LatticeSite loc = bead.getLocation();
+		ArrayList<GridLocation> adj_loc = loc.getAdjacentSites(true, lattice_size);
+		
+		for(int i = 0; i < adj_loc.size(); i++){
+			LatticeSite adj_temp = getLatticeSite(adj_loc.get(i));
+			if(adj_temp.isFilled()){
+				adjacent_beads.add(adj_temp.getBead());
+			}
+		}
+		
+		return adjacent_beads; 
+	}
+	
 	public void initializeBeadChain(Protein init) {
 	}
 	
-	//throw out most of this
-	public void initializeLattice() {
-		// generate a self-avoiding walk
-		Random gen = new Random();
-		int x,y,z;
-		
-		LatticeBead current = head;
-		if (current != null) {
-			// start walk
-			if (lattice_dim == 2) {
-				x = gen.nextInt(lattice_size);
-				y = gen.nextInt(lattice_size);
-
-				LatticeSite temp = lattice[x * lattice_size + y];
-				temp.addBead(current);
-				current.setLocation(temp);
-			} else {
-				x = gen.nextInt(lattice_size);
-				y = gen.nextInt(lattice_size);
-				z = gen.nextInt(lattice_size);
-				
-				LatticeSite temp = lattice[x * lattice_size * lattice_size + y * lattice_size + z];
-				temp.addBead(current);
-				current.setLocation(temp);
-			}
-
-		} else {
-			//throw an exception here eventually.
-			return;
-		}
-
-		// should have some backtrack mechanism
-		while (current.getNext() != null) {
-			// attempt to walk
-			ArrayList<GridLocation> adjacent = current.getLocation().getAdjacentSites(true, lattice_size);
-			
-			current = current.getNext();
-			
-			int choice = gen.nextInt(adjacent.size());
-			
-			//get LatticeSite of our choice
-			if (lattice_dim == 2) {
-				LatticeSite walk_point = lattice[adjacent.get(choice).getX()*lattice_size + adjacent.get(choice).getY()];
-				if(walk_point.isFilled()){
-					//backtrack, remove the point and try again. 
-					// keep track of # of backtracks
-				}
-				else{
-					//should check if this path is blocked, but if the system doesn't work I'll worry about it then
-					
-				}
-			}
-		}
+	public void initializeLattice(){
 	}
 	
 	// still making decisions on this API
 	public void reconfigureWalk() {
-	}
-	
-	public int calculateFreeEnergy() {
-		return 0;
 	}
 	
 	public int getDimensions(){

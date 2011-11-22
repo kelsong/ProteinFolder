@@ -45,10 +45,15 @@ public class LatticeBead {
 		return succ;
 	}
 	
-	public void setLocation(LatticeSite new_site){
-		location.removeBead();
-		new_site.addBead(this);
-		location = new_site;
+	public boolean setLocation(LatticeSite new_site){
+		if(new_site.isFilled()){
+			return false;
+		} else {
+			location.removeBead();
+			new_site.addBead(this);
+			location = new_site;
+			return true;
+		}
 	}
 	
 	public LatticeSite getLocation(){
