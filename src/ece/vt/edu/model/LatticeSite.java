@@ -43,4 +43,9 @@ public class LatticeSite {
 		slot = new_bead;
 		site_filled = true;
 	}
+	
+	public LatticeBead getBead()
+	{
+		return slot;
+	}
 }

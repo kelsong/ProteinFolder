@@ -51,6 +51,23 @@ public class Lattice {
 		}
 	}
 	
+	public boolean isLattice2D()
+	{
+		return true;
+	}
+	
+	public LatticeSite getLatticeSite(int x, int y, int z)
+	{
+		if(isLattice2D())
+		{
+			return lattice[x * lattice_size + y];
+		}
+		else
+		{
+			return lattice[x * lattice_size * lattice_size + y * lattice_size + z];
+		}
+	}
+	
 	public void initializeBeadChain(Protein init) {
 	}
 	
