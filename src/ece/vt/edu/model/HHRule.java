@@ -1,8 +1,38 @@
 package ece.vt.edu.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class HHRule extends AbstractEnergyRule{
+	
+	private class HHBond
+	{
+		LatticeBead a;
+		LatticeBead b;
+		
+		@SuppressWarnings("unused")
+		public HHBond(LatticeBead _a, LatticeBead _b)
+		{
+			a=_a;
+			b=_b;
+		}
+		
+		public boolean equals(HHBond that)
+		{
+			if(this.a==that.a && this.b==that.b)
+			{
+				return true;
+			}
+			else if(this.a==that.b && this.b==that.a)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
 
 	@Override
 	int scoreLattice(Lattice lat) {
@@ -30,6 +60,9 @@ public class HHRule extends AbstractEnergyRule{
 		int runningScore=0;
 		int latDimension=lat.getDimensions();
 		
+		
+		HashSet<HHBond> bondMap=new HashSet<HHBond>();
+		
 		for(int x=0;x<latDimension;x++)
 		{
 			for(int y=0;y<latDimension;y++)
@@ -48,7 +81,7 @@ public class HHRule extends AbstractEnergyRule{
 						 ArrayList<GridLocation> neighbors=latticeSite.getAdjacentSites(true, 1);
 						 
 						 int numHNeighbors=0;
-						 for(GridLocation loc : neighbors)
+						 for(GridLocation loc : neighbors) //for each neighbor
 						 {
 							 //get the lattice bead at this location
 							 LatticeBead nBead=lat.getLatticeSite(loc.getX(), loc.getY(), 0).getBead();
@@ -56,12 +89,17 @@ public class HHRule extends AbstractEnergyRule{
 							 //if neighbor is an acid and this bond hasn't already been score
 							 if(nBead.getAcid().isAcidHydrophobic()) 
 							 {
-								 //increment running score
-								 numHNeighbors++;
+								 HHBond newBond=new HHBond(bead,nBead);
+								 if(!bondMap.contains(newBond))
+								 {
+									 //add bond to hash set
+									 bondMap.add(newBond);
+									 
+									 //increment running score
+									 numHNeighbors++;
+ 
+								 }
 							 }
-							 
-							 //TODO Don't know how to do this!!
-							 //mark all relevant bindings as being scored
 						 }
 						 
 						 runningScore+=numHNeighbors*-1;
