@@ -1,6 +1,5 @@
 package ece.vt.edu.model;
 
-import java.util.Random;
 import java.util.ArrayList;
 
 public class Lattice {
@@ -94,6 +93,11 @@ public class Lattice {
 		}
 		
 		return adjacent_beads; 
+	}
+	
+	public LatticeBead getHead()
+	{
+		return head;
 	}
 	
 	public void initializeBeadChain(Protein init) {

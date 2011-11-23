@@ -5,63 +5,48 @@ import java.util.HashSet;
 
 public class HHRule extends AbstractEnergyRule{
 	
-	private class HHBond
-	{
-		LatticeBead a;
-		LatticeBead b;
-		
-		@SuppressWarnings("unused")
-		public HHBond(LatticeBead _a, LatticeBead _b)
-		{
-			a=_a;
-			b=_b;
-		}
-		
-		public boolean equals(HHBond that)
-		{
-			if(this.a==that.a && this.b==that.b)
-			{
-				return true;
-			}
-			else if(this.a==that.b && this.b==that.a)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
-
 	@Override
-	int scoreLattice(Lattice lat) {
-		//assuming only square lattices, need to figure out if 2D or 3D
-		boolean is2D=lat.isLattice2D();
-		
-		int score=0;
-		
-		if(is2D)
-		{
-			score=score2DLattice(lat);
-		}
-		else
-		{
-			score=score3DLattice(lat);
-		}
-
-
-		return score;
-	}
-	
-	private int score2DLattice(Lattice lat)
+	public int scoreLattice(Lattice lattice)
 	{
+		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		LatticeBead bead=lattice.getHead();
+		
+		int bondCount=0;
+		
+		//walk through protein chain starting at the head
+		while(bead.succ!=null)
+		{
+			//get a list of neighbors for this bead
+			ArrayList<LatticeBead> neighborBead = lattice.getAdjacentBeads(bead);
+			for(LatticeBead neighbor : neighborBead)
+			{
+				//is neighbor hydrophobic
+				if(neighbor.getAcid().isAcidHydrophobic())
+				{
+					AcidBond newBond = new AcidBond(bead,neighbor);
+					
+					//check to see if bond had already been counter
+					if(!bondSet.contains(newBond))
+					{
+						//add to set
+						bondSet.add(newBond);
+						
+						//count this bond
+						bondCount++;
+					}
+				}
+			}
+			
+			bead=bead.succ;
+		}
+		
+		return bondCount*-1;
+		
+		/*
 		//start at (0,0) and walk through all locations, noting each bond
 		int runningScore=0;
-		int latDimension=lat.getDimensions();
+		int latDimension=lattice.getDimensions();
 		
-		
-		HashSet<HHBond> bondMap=new HashSet<HHBond>();
 		
 		for(int x=0;x<latDimension;x++)
 		{
@@ -105,14 +90,7 @@ public class HHRule extends AbstractEnergyRule{
 						 runningScore+=numHNeighbors*-1;
 					}
 				}
-			}
-		}
-		return runningScore;
-	}
+			}*/
 	
-	private int score3DLattice(Lattice lat)
-	{
-		return 0;
 	}
-
 }

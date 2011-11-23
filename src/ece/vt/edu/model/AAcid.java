@@ -28,6 +28,55 @@ public class AAcid {
 		}
 	}
 	
+	public int getAcidity()
+	{
+		switch(this_acid){
+		//NON-POLAR AMINO ACIDS 
+		case ALANINE:
+			return 0;
+		case GLYCINE:
+			return 1;
+		case ISOLEUCINE:
+			return 2;
+		case LEUCINE:
+			return 3;
+		case METHIONINE:
+			return 4;
+		case PHENYLALANINE:
+			return 5;
+		case PROLINE:
+			return 6;
+		case TRYPTOPHAN:
+			return 7;
+		case TYROSINE:
+			return 8;
+		case VALINE:
+			return 9;
+		case ARGININE:
+			return 10;
+		case ASPARAGINE:
+			return 11;
+		case ASPARTIC_ACID:
+			return 12;
+		case CYSTEINE:
+			return 13;
+		case GLUTAMIC_ACID:
+			return 14;
+		case GLUTAMINE:
+			return 15;
+		case HISTIDINE:
+			return 16;
+		case LYSINE:
+			return 17;
+		case SERINE:
+			return 18;
+		case THREONINE:
+			return 19;
+		default:
+			return 0;
+		}
+	}
+	
 	public AcidType getAcidType(){
 		switch(this_acid){
 			//NON-POLAR AMINO ACIDS 
