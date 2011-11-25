@@ -1,4 +1,4 @@
-package ece.vt.edu.model
+package ece.vt.edu.model;
 
 public class AcidBond
 {

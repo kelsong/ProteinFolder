@@ -31,7 +31,10 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			lattice.placeAcid(head, x, y, 0);
 		}
 		
-		
+		for(int i=0;i<proteinLength;i++)
+		{
+			
+		}
 		
 		return true;
 	}
