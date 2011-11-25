@@ -1,6 +1,6 @@
 package ece.vt.edu.model;
 
-public abstract class AbstractEnergyRule {
+public abstract class EnergyRule {
 	public abstract int scoreLattice(Lattice lat);
 
 }

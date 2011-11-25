@@ -6,14 +6,40 @@ public class AAcid {
 								 GLUTAMINE, GLYCINE, HISTIDINE, ISOLEUCINE, LEUCINE, LYSINE, METHIONINE,
 								 PHENYLALANINE, PROLINE, SERINE, THREONINE, TRYPTOPHAN, TYROSINE, VALINE};
 	
-	AcidName this_acid;
+	AcidName acidName;
+	AcidType acidType;
+	
+	static int counter=0;
+	public int myID;
 	
 	public AAcid(){
-		this_acid = null;
+		acidName = null;
+		acidType = null;
+		
+		myID=counter++;
 	}
 	
 	public AAcid(AcidName init){
-		this_acid = init; 
+		acidName = init;
+		
+		if(isAcidHydrophobic())
+		{
+			acidType=AcidType.NONPOLAR;
+		}
+		else
+		{
+			acidType=AcidType.POLAR;
+		}
+		
+		myID=counter++;
+	}
+	
+	public AAcid(AcidType init)
+	{
+		acidName=null;
+		acidType=init;
+		
+		myID=counter++;
 	}
 	
 	public boolean isAcidHydrophobic()
@@ -30,47 +56,50 @@ public class AAcid {
 	
 	public int getAcidity()
 	{
-		switch(this_acid){
-		//NON-POLAR AMINO ACIDS 
-		case ALANINE:
+		//hydrophobic -> non-polar
+		//hydrophalic -> polar
+		
+		switch(acidName){
+		//listing of amino acids based up Hydropahty index on wikipedia 
+		case ARGININE:
 			return 0;
-		case GLYCINE:
+		case LYSINE:
 			return 1;
-		case ISOLEUCINE:
+		case GLUTAMINE:
 			return 2;
-		case LEUCINE:
+		case GLUTAMIC_ACID:
 			return 3;
-		case METHIONINE:
+		case ASPARAGINE:
 			return 4;
-		case PHENYLALANINE:
+		case ASPARTIC_ACID:
 			return 5;
-		case PROLINE:
+		case HISTIDINE:
 			return 6;
-		case TRYPTOPHAN:
+		case PROLINE:
 			return 7;
 		case TYROSINE:
 			return 8;
-		case VALINE:
+		case TRYPTOPHAN:
 			return 9;
-		case ARGININE:
-			return 10;
-		case ASPARAGINE:
-			return 11;
-		case ASPARTIC_ACID:
-			return 12;
-		case CYSTEINE:
-			return 13;
-		case GLUTAMIC_ACID:
-			return 14;
-		case GLUTAMINE:
-			return 15;
-		case HISTIDINE:
-			return 16;
-		case LYSINE:
-			return 17;
 		case SERINE:
-			return 18;
+			return 10;
 		case THREONINE:
+			return 11;
+		case GLYCINE:
+			return 12;
+		case ALANINE:
+			return 13;
+		case METHIONINE:
+			return 14;
+		case CYSTEINE:
+			return 15;
+		case PHENYLALANINE:
+			return 16;
+		case LEUCINE:
+			return 17;
+		case VALINE:
+			return 18;
+		case ISOLEUCINE:
 			return 19;
 		default:
 			return 0;
@@ -78,7 +107,7 @@ public class AAcid {
 	}
 	
 	public AcidType getAcidType(){
-		switch(this_acid){
+		switch(acidName){
 			//NON-POLAR AMINO ACIDS 
 			case ALANINE:
 			case GLYCINE:

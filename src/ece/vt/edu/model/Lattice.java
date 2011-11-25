@@ -113,4 +113,17 @@ public class Lattice {
 	public int getDimensions(){
 		return lattice_dim;
 	}
+	
+	public boolean placeAcid(AAcid acid, int x, int y, int z)
+	{
+		LatticeSite site=getLatticeSite(x, y, z);
+		
+		if(site.isFilled())
+			return false;
+		
+		LatticeBead bead=new LatticeBead(acid);
+		site.addBead(bead);
+		
+		return true;
+	}
 }

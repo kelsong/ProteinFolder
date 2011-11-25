@@ -3,7 +3,7 @@ package ece.vt.edu.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class PhobicityRule extends AbstractEnergyRule{
+public class PhobicityRule extends EnergyRule{
 
 	@Override
 	public int scoreLattice(Lattice lattice) {
