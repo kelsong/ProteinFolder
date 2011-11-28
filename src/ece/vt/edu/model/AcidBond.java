@@ -10,7 +10,7 @@ public class AcidBond implements Comparable<AcidBond>
 		a=_a;
 		b=_b;
 		
-		System.out.println("Creating bond: "+a.toString() + " "+b.toString());
+		//System.out.println("Creating bond: "+a.getAcid() + " "+a.getAcid());
 	}
 
 	public boolean equals(AcidBond that)
