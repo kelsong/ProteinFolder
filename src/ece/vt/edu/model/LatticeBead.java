@@ -46,7 +46,14 @@ public class LatticeBead {
 	}
 	
 	public boolean setLocation(LatticeSite new_site){
-		if(new_site.isFilled()){
+		if(location==null)
+		{
+			location=new LatticeSite();
+		}
+		
+		if(new_site.isFilled())
+		{
+			System.out.println("Site is filled...");
 			return false;
 		} else {
 			location.removeBead();

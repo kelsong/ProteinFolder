@@ -91,7 +91,7 @@ public class GridLocation {
 					}
 				}
 			}
-			return null;
+			return adjacentLocs;
 		}
 		else{ //TODO: adjacency for triangles
 			return null;

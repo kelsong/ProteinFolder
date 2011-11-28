@@ -1,6 +1,7 @@
 package ece.vt.edu.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /*This algorithm initially places the protein at a random site in the lattice
@@ -14,16 +15,16 @@ public class BestMoveFirst extends FoldingAlgorithm {
 	boolean fold(Protein protein, EnergyRule energy, Lattice lattice) 
 	{
 		int proteinLength=protein.getLength();
-
-
-		//place initial acid at random location in lattice
-		LatticeBead bead=lattice.placeAcid(protein.getAcid(0), lattice.getRandomSite());
+		
+		//get a random site in the lattice and place a bead there
+		LatticeSite site=lattice.getRandomSite();
+		lattice.placeAcid(protein.getAcid(0), site);
 		
 		//walk through the chain, selecting the best possible placement 
 		//based upon only the next bead
 		for(int i=1;i<proteinLength;i++)
 		{
-			if(bead==null)
+			if(site==null)
 			{
 				System.out.println("Couldn't place bead, something bad happened...");
 			}
@@ -32,7 +33,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			AAcid acid=protein.getAcid(i);
 			
 			//get list of neighbors from last placed bead
-			ArrayList<LatticeSite> sites=lattice.getAdjacentSites(bead);
+			List<LatticeSite> sites=lattice.getAdjacentSites(site);
 			
 			//rate each bead placement and choose the one that's best
 			ArrayList<Integer> scores=new ArrayList<Integer>();
@@ -41,7 +42,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			int indexOfBestScore=-1;
 			for(int j=0;j<sites.size();j++)
 			{
-				//get neighbor
+				//get a neighbor
 				LatticeSite potentialSite=sites.get(j);
 				
 				//place in lattice
@@ -66,7 +67,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			//out of all the potential neighbors, choose the one that had the best score
 			//and get the bead associated with that site
-			bead=lattice.placeAcid(acid, sites.get(indexOfBestScore));
+			LatticeBead bead = lattice.placeAcid(acid, sites.get(indexOfBestScore));
 			
 		}
 		

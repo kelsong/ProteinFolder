@@ -10,9 +10,11 @@ public class LatticeSite {
 	
 	public LatticeSite(){
 		loc = new GridLocation();
+		bead=null;
 	}
 	
 	public LatticeSite(GridLocation start){
+		super();
 		loc = start;
 	}
 	

@@ -1,6 +1,7 @@
 package ece.vt.edu.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,14 +19,17 @@ public class Lattice {
 	//LatticeBead head;
 	//LatticeBead tail;
 	
-	List<LatticeBead> listofBeads;
+	LinkedList<LatticeBead> listofBeads;
 
 	public Lattice() {
 		lattice = new LatticeSite[lattice_size * lattice_size];
 		lattice_type = 1; // square
+		listofBeads = new LinkedList<LatticeBead>();
 	}
 	
 	public Lattice(boolean two_d, int size, boolean square) {
+		listofBeads = new LinkedList<LatticeBead>();
+		
 		if (two_d) {
 			lattice_dim = 2;
 			lattice_size = size;
@@ -115,11 +119,30 @@ public class Lattice {
 		
 	}
 	
+	public List<LatticeSite> getAdjacentSites(LatticeSite site)
+	{
+		ArrayList<LatticeSite> adjacent_sites = new ArrayList<LatticeSite>();
+		
+		ArrayList<GridLocation> adj_loc = site.getAdjacentSites(true, lattice_size);
+		
+		if(adj_loc==null)
+		{
+			System.out.println("No adjacent site found! This cannot happen!");
+		}
+		
+		for(int i = 0; i < adj_loc.size(); i++){
+			LatticeSite adj_temp = getLatticeSite(adj_loc.get(i));
+			adjacent_sites.add(adj_temp);
+		}
+		
+		return adjacent_sites;
+	}
+	
 	public LatticeSite getRandomSite()
 	{
-		int x=new Random().nextInt(lattice_dim);
-		int y=new Random().nextInt(lattice_dim);
-		int z=new Random().nextInt(lattice_dim);
+		int x=new Random().nextInt(lattice_size);
+		int y=new Random().nextInt(lattice_size);
+		int z=new Random().nextInt(lattice_size);
 		
 		if(isLattice2D())
 		{
@@ -160,32 +183,49 @@ public class Lattice {
 	public void reconfigureWalk() {
 	}
 	
-	public int getDimensions(){
-		return lattice_dim;
+	private int getDimensions(){
+		return lattice_size;
 	}
 	
 	public LatticeBead placeAcid(AAcid acid, LatticeSite site)
 	{
-		return null;
+		//create new bead
+		LatticeBead newBead=new LatticeBead(acid);
+		
+		//add site to bead
+		newBead.setLocation(site);
+		
+		//add bead to site
+		site.addBead(newBead);
+		
+		//add bead to list of beads
+		listofBeads.add(newBead);
+		
+		return newBead;
 	}
 	
-	public LatticeBead placeAcid(AAcid acid, GridLocation loc)
+	public List<LatticeBead> getListofBeads()
 	{
-		return placeAcid(acid, loc.getX(), loc.getY(), loc.getZ());
+		return listofBeads;
 	}
 	
-	public LatticeBead placeAcid(AAcid acid, int x, int y, int z)
-	{
-		LatticeSite site=getLatticeSite(x, y, z);
-		
-		if(site.isFilled())
-			return null;
-		
-		LatticeBead bead=new LatticeBead(acid);
-		site.addBead(bead);
-		
-		listofBeads.add(bead);
-		
-		return bead;
-	}
+//	private LatticeBead placeAcid(AAcid acid, GridLocation loc)
+//	{
+//		return placeAcid(acid, loc.getX(), loc.getY(), loc.getZ());
+//	}
+//	
+//	private LatticeBead placeAcid(AAcid acid, int x, int y, int z)
+//	{
+//		LatticeSite site=getLatticeSite(x, y, z);
+//		
+//		if(site.isFilled())
+//			return null;
+//		
+//		LatticeBead bead=new LatticeBead(acid);
+//		site.addBead(bead);
+//		
+//		listofBeads.add(bead);
+//		
+//		return bead;
+//	}
 }

@@ -9,8 +9,10 @@ public class AcidBond
 	{
 		a=_a;
 		b=_b;
+		
+		System.out.println("Creating bond: "+a.toString() + " "+b.toString());
 	}
-	
+
 	public boolean equals(AcidBond that)
 	{
 		if(this.a==that.a && this.b==that.b)
@@ -26,4 +28,5 @@ public class AcidBond
 			return false;
 		}
 	}
+
 }

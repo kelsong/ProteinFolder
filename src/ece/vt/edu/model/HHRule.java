@@ -2,19 +2,24 @@ package ece.vt.edu.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class HHRule extends EnergyRule{
 	
 	@Override
 	public int scoreLattice(Lattice lattice)
 	{
-		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
-		LatticeBead bead=lattice.getHead();
 		
+		//hash set to keep track of the bonds we've counted
+		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		
+		//count the number of bond
 		int bondCount=0;
 		
 		//walk through protein chain starting at the head
-		while(bead.succ!=null)
+		List<LatticeBead> beadList=lattice.getListofBeads();
+		
+		for(LatticeBead bead : beadList)
 		{
 			//get a list of neighbors for this bead
 			ArrayList<LatticeBead> neighborBead = lattice.getAdjacentBeads(bead);
@@ -24,6 +29,10 @@ public class HHRule extends EnergyRule{
 				if(neighbor.getAcid().isAcidHydrophobic())
 				{
 					AcidBond newBond = new AcidBond(bead,neighbor);
+					
+					/*
+					 * TODO This doesn't actually check if A==B and B==A
+					 */
 					
 					//check to see if bond had already been counter
 					if(!bondSet.contains(newBond))
@@ -36,11 +45,37 @@ public class HHRule extends EnergyRule{
 					}
 				}
 			}
-			
-			bead=bead.succ;
 		}
 		
-		return bondCount*-1;
+		return bondCount*1;
+		
+//		while(bead.succ!=null)
+//		{
+//			//get a list of neighbors for this bead
+//			ArrayList<LatticeBead> neighborBead = lattice.getAdjacentBeads(bead);
+//			for(LatticeBead neighbor : neighborBead)
+//			{
+//				//is neighbor hydrophobic
+//				if(neighbor.getAcid().isAcidHydrophobic())
+//				{
+//					AcidBond newBond = new AcidBond(bead,neighbor);
+//					
+//					//check to see if bond had already been counter
+//					if(!bondSet.contains(newBond))
+//					{
+//						//add to set
+//						bondSet.add(newBond);
+//						
+//						//count this bond
+//						bondCount++;
+//					}
+//				}
+//			}
+//			
+//			bead=bead.succ;
+//		}
+		
+//		return bondCount*-1;
 		
 		/*
 		//start at (0,0) and walk through all locations, noting each bond

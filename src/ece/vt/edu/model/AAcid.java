@@ -4,7 +4,7 @@ public class AAcid {
 	public static enum AcidType {POLAR, NONPOLAR};
 	public static enum AcidName {ALANINE, ARGININE, ASPARAGINE, ASPARTIC_ACID, CYSTEINE, GLUTAMIC_ACID, 
 								 GLUTAMINE, GLYCINE, HISTIDINE, ISOLEUCINE, LEUCINE, LYSINE, METHIONINE,
-								 PHENYLALANINE, PROLINE, SERINE, THREONINE, TRYPTOPHAN, TYROSINE, VALINE};
+								 PHENYLALANINE, PROLINE, SERINE, THREONINE, TRYPTOPHAN, TYROSINE, VALINE, HYDROPHOBIC, POLAR};
 	
 	AcidName acidName;
 	AcidType acidType;
@@ -36,7 +36,15 @@ public class AAcid {
 	
 	public AAcid(AcidType init)
 	{
-		acidName=null;
+		if(init==AcidType.POLAR)
+		{
+			acidName=AcidName.POLAR;
+		}
+		else if(init==AcidType.NONPOLAR)
+		{
+			acidName=AcidName.HYDROPHOBIC;
+		}
+		
 		acidType=init;
 		
 		myID=counter++;
@@ -119,6 +127,7 @@ public class AAcid {
 			case TRYPTOPHAN:
 			case TYROSINE:
 			case VALINE:
+			case HYDROPHOBIC:
 				return AcidType.NONPOLAR;
 			
 			case ARGININE:
@@ -131,6 +140,7 @@ public class AAcid {
 			case LYSINE:
 			case SERINE:
 			case THREONINE:
+			case POLAR:
 				return AcidType.POLAR;
 				
 			default:
