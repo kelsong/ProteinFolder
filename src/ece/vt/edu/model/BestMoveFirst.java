@@ -35,6 +35,15 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			//get list of neighbors from last placed bead
 			List<LatticeSite> sites=lattice.getAdjacentSites(site);
 			
+			System.out.println("Neighbors of "+site+" are: ");
+			/*
+			 * 
+			 */
+			for(LatticeSite s : sites)
+			{
+				System.out.println(s);
+			}
+			
 			//rate each bead placement and choose the one that's best
 			ArrayList<Integer> scores=new ArrayList<Integer>();
 			
@@ -67,7 +76,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			//out of all the potential neighbors, choose the one that had the best score
 			//and get the bead associated with that site
-			LatticeBead bead = lattice.placeAcid(acid, sites.get(indexOfBestScore));
+			lattice.placeAcid(acid, sites.get(indexOfBestScore));
 			
 		}
 		

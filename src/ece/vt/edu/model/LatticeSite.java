@@ -50,4 +50,9 @@ public class LatticeSite {
 	{
 		return bead;
 	}
+	
+	public String toString()
+	{
+		return "("+loc.x+","+loc.y+","+loc.z+")";
+	}
 }

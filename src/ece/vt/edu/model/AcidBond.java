@@ -1,6 +1,6 @@
 package ece.vt.edu.model;
 
-public class AcidBond
+public class AcidBond implements Comparable<AcidBond>
 {
 	LatticeBead a;
 	LatticeBead b;
@@ -29,4 +29,19 @@ public class AcidBond
 		}
 	}
 
+	@Override
+	public int compareTo(AcidBond that) {
+		if(this.a==that.a && this.b==that.b)
+		{
+			return 1;
+		}
+		else if(this.a==that.b && this.b==that.a)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 }

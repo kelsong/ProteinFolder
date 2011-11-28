@@ -9,13 +9,19 @@ public class LatticeBead {
 	
 	LatticeSite location;
 	
+	static int counter=0;
+	
+	int id;
 	public LatticeBead(){
 		acid = null;
 		pred = null;
 		succ = null;
+		
+		id=counter++;
 	}
 	
 	public LatticeBead(AAcid init){
+		super();
 		acid = init;
 		pred = null;
 		succ = null;
@@ -55,7 +61,9 @@ public class LatticeBead {
 		{
 			System.out.println("Site is filled...");
 			return false;
-		} else {
+		} 
+		else 
+		{
 			location.removeBead();
 			new_site.addBead(this);
 			location = new_site;
@@ -70,5 +78,12 @@ public class LatticeBead {
 	public AAcid getAcid()
 	{
 		return acid;
+	}
+	
+	public void clearBead()
+	{
+		location.bead=null;
+		pred=null;
+		succ=null;
 	}
 }

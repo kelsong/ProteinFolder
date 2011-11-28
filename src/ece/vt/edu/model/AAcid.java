@@ -147,4 +147,57 @@ public class AAcid {
 				return null;
 		}
 	}
+	
+	public String toString()
+	{
+		switch(acidName){
+		//NON-POLAR AMINO ACIDS 
+		case ALANINE:
+			return "Alanine";
+		case GLYCINE:
+			return "Glycine";
+		case ISOLEUCINE:
+			return "Isoleucine";
+		case LEUCINE:
+			return "Leucine";
+		case METHIONINE:
+			return "Methionine";
+		case PHENYLALANINE:
+			return "Phenylalanine";
+		case PROLINE:
+			return "Proline";
+		case TRYPTOPHAN:
+			return "Tryptophan";
+		case TYROSINE:
+			return "Tyrosine";
+		case VALINE:
+			return "Valine";
+		case HYDROPHOBIC:
+			return "Hydrophobic";
+		case ARGININE:
+			return "Arginine";
+		case ASPARAGINE:
+			return "Asparagine";
+		case ASPARTIC_ACID:
+			return "Aspartic Acid";
+		case CYSTEINE:
+			return "Cysteine";
+		case GLUTAMIC_ACID:
+			return "Glutamic Acid";
+		case GLUTAMINE:
+			return "Glutamine";
+		case HISTIDINE:
+			return "Histidine";
+		case LYSINE:
+			return "Lysine";
+		case SERINE:
+			return "Serine";
+		case THREONINE:
+			return "Threonine";
+		case POLAR:
+			return "Polar";
+		default:
+			return "Unknown";
+		}
+	}
 }
