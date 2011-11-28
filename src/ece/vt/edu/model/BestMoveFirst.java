@@ -44,10 +44,9 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			}*/
 			
 			//rate each bead placement and choose the one that's best
-			ArrayList<Integer> scores=new ArrayList<Integer>();
+			ArrayList<Integer> scoresIndex=new ArrayList<Integer>();
 			
 			int bestScore=0;
-			int indexOfBestScore=-1;
 			boolean acidPlaced=false;
 			for(int j=0;j<sites.size();j++)
 			{
@@ -72,8 +71,14 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				
 				if(score>bestScore)
 				{
+					scoresIndex=new ArrayList<Integer>();
+					scoresIndex.add(j);
+					
 					bestScore=score;
-					indexOfBestScore=j;
+				}
+				else if(score==bestScore)
+				{
+					scoresIndex.add(j);
 				}
 				
 				//remove latest bead
@@ -94,6 +99,9 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			}
 			else
 			{
+				int numScores=scoresIndex.size();
+				int indexOfBestScore=scoresIndex.get(new Random().nextInt(numScores));
+				
 				//out of all the potential neighbors, choose the one that had the best score
 				//and get the bead associated with that site
 				System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);

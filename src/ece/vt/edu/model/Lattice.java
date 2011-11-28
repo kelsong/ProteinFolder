@@ -61,7 +61,10 @@ public class Lattice {
 	
 	public boolean isLattice2D()
 	{
-		return true;
+		if(lattice_dim==2)
+			return true;
+		else
+			return false;
 	}
 	
 	private LatticeSite getLatticeSite(int x, int y, int z)
@@ -138,6 +141,9 @@ public class Lattice {
 		return adjacent_sites;
 	}
 	
+	/*
+	 * Returns null pointer for 3D case
+	 */
 	public LatticeSite getRandomSite()
 	{
 		int x=new Random().nextInt(lattice_size);

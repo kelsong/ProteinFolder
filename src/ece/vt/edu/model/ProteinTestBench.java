@@ -13,7 +13,7 @@ public class ProteinTestBench {
 		
 		//protein.readFile("protein_test.txt");
 		
-		Lattice twoD=new Lattice(true,100,true);
+		Lattice twoD=new Lattice(false,100,true);
 		
 		HHRule rule=new HHRule();
 		
