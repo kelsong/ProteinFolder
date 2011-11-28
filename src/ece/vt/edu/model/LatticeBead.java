@@ -67,6 +67,12 @@ public class LatticeBead {
 		return location;
 	}
 	
+	public void deleteBead(){
+		if(location!=null){
+			location.removeBead();
+		}
+	}
+	
 	public AAcid getAcid()
 	{
 		return acid;

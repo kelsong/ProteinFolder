@@ -162,7 +162,9 @@ public class Lattice {
 		}
 		else
 		{
-			listofBeads.remove(listofBeads.size()-1);
+			LatticeBead temp = listofBeads.removeLast(); //remove from list
+			temp.deleteBead(); //remove site refernce
+			temp = null; //remove temp reference, should be available for garbage collection
 			return true;
 		}
 	}
