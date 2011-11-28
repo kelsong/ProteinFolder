@@ -1,6 +1,6 @@
 package ece.vt.edu.model;
 
-public class ProteinTestBench {
+public class JasonTestBench {
 
 	/**
 	 * @param args
