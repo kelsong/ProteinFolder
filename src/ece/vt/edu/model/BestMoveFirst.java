@@ -92,12 +92,16 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				lattice.printBeads();
 				return false;
 			}
+			else
+			{
+				//out of all the potential neighbors, choose the one that had the best score
+				//and get the bead associated with that site
+				System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
+				
+				lattice.placeAcid(acid, sites.get(indexOfBestScore));	
+			}
 			
-			//out of all the potential neighbors, choose the one that had the best score
-			//and get the bead associated with that site
-			System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
 			
-			lattice.placeAcid(acid, sites.get(indexOfBestScore));
 			
 		}
 		

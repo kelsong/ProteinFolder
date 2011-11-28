@@ -3,6 +3,7 @@ package ece.vt.edu.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 public class HHRule extends EnergyRule{
 	
@@ -11,7 +12,7 @@ public class HHRule extends EnergyRule{
 	{
 		
 		//hash set to keep track of the bonds we've counted
-		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		TreeSet<AcidBond> bondSet=new TreeSet<AcidBond>();
 		
 		//count the number of bond
 		int bondCount=0;
