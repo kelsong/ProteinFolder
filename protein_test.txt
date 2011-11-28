@@ -1,1 +1,1 @@
-arg, asn, asp, cys, gly, glu, gln, his, ile, leu, lys, met, phe, pro, trp, tyr, ser, thr, val
+ala, arg, asn, asp, cys, gly, glu, gln, his, ile, leu, lys, met, phe, pro, trp, tyr, ser, thr, val

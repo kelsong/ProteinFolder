@@ -41,28 +41,30 @@ public class Protein {
 		scan.useDelimiter(",");
 		while (scan.hasNext()) {
 			String argument = scan.next();
-			argument.toUpperCase();
+			argument = argument.trim();
+			argument = argument.toUpperCase();
+			//System.out.println(argument);
 			if (argument.equals("ALA")) 
 			{ // Alanine
 				acids.add(new AAcid(AcidName.ALANINE));
 			} 
 			else if (argument.equals("ARG")) { // Arginine
 				acids.add(new AAcid(AcidName.ARGININE));
-			} else if (argument.equals("ASP")) { // Asparagine
+			} else if (argument.equals("ASN")) { // Asparagine
 				acids.add(new AAcid(AcidName.ASPARAGINE));
-			} else if (argument.equals("ASA")) { // Aspartic Acid
+			} else if (argument.equals("ASP")) { // Aspartic Acid
 				acids.add(new AAcid(AcidName.ASPARTIC_ACID));
 			} else if (argument.equals("CYS")) { // Cysteine
 				acids.add(new AAcid(AcidName.CYSTEINE));
 			} else if (argument.equals("GLY")) { // Glycine
 				acids.add(new AAcid(AcidName.GLYCINE));
-			} else if (argument.equals("GLA")) { // Glutamic Acid
+			} else if (argument.equals("GLU")) { // Glutamic Acid
 				acids.add(new AAcid(AcidName.GLUTAMIC_ACID));
-			} else if (argument.equals("GLU")) { // Glutamine
+			} else if (argument.equals("GLN")) { // Glutamine
 				acids.add(new AAcid(AcidName.GLUTAMINE));
 			} else if (argument.equals("HIS")) { // Histidine
 				acids.add(new AAcid(AcidName.HISTIDINE));
-			} else if (argument.equals("ISO")) { // Isoleucine
+			} else if (argument.equals("ILE")) { // Isoleucine
 				acids.add(new AAcid(AcidName.ISOLEUCINE));
 			} else if (argument.equals("LEU")) { // Leucine
 				acids.add(new AAcid(AcidName.LEUCINE));
@@ -74,7 +76,7 @@ public class Protein {
 				acids.add(new AAcid(AcidName.PHENYLALANINE));
 			} else if (argument.equals("PRO")) { // Proline
 				acids.add(new AAcid(AcidName.PROLINE));
-			} else if (argument.equals("TRY")) { // Tryptophan
+			} else if (argument.equals("TRP")) { // Tryptophan
 				acids.add(new AAcid(AcidName.TRYPTOPHAN));
 			} else if (argument.equals("TYR")) { // Tyrosine
 				acids.add(new AAcid(AcidName.TYROSINE));
@@ -92,6 +94,8 @@ public class Protein {
 			else if(argument.equals("P"))//simple cases of using globular molecules
 			{
 				acids.add(new AAcid(AcidType.POLAR));
+			} else {
+				System.out.println("No Match");
 			}
 		}
 	}
@@ -126,7 +130,7 @@ public class Protein {
 			String argument = scan.next();
 			argument = argument.trim();
 			argument = argument.toUpperCase();
-			System.out.println(argument);
+			//System.out.println(argument);
 			if (argument.equals("ALA")) 
 			{ // Alanine
 				acids.add(new AAcid(AcidName.ALANINE));

@@ -11,7 +11,7 @@ public class ProteinTestBench {
 		Protein protein=new Protein();
 		protein.parseString(testString);
 		
-		protein.readFile("protein_test.txt");
+		//protein.readFile("protein_test.txt");
 		
 		Lattice twoD=new Lattice(true,100,true);
 		
