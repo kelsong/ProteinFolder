@@ -98,7 +98,11 @@ public class Protein {
 	
 	public void readFile(String filename) {
 		// need to figure out the file format for primary structures
+<<<<<<< HEAD
 		// just read each line uppercase it and compare it to the names of the proteins
+=======
+		// just read each line and compare it to the names of the proteins
+>>>>>>> Formatting changes
 		File protein_file = new File(filename);
 		
 		System.out.println("Load: "+protein_file.getAbsolutePath());
