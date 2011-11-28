@@ -1,10 +1,42 @@
 package ece.vt.edu.model;
 
-public class RandomWalk extends FoldingAlgorithm{
+import java.util.List;
+import java.util.Random;
 
+public class RandomWalk extends FoldingAlgorithm {
+	// No state saving for now
+	// start with a truly random walk
 	@Override boolean fold(Protein protein, EnergyRule energy, Lattice lattice) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-	
+		// TODO Auto-generated method stub
+		int protein_length = protein.getLength();
+		Random gen = new Random();
+		
+		LatticeSite start = lattice.getRandomSite();
+		lattice.placeAcid(protein.getAcid(0), start);
+		for (int i = 1; i < protein_length; i++) {
+		    	LatticeSite curr = start;
+			List<LatticeSite> adjacent_list = lattice.getAdjacentSites(curr);
+			AAcid next = protein.getAcid(i);
+			// check for stuck
+			boolean stuck = true;
+			for (int j = 0; j < adjacent_list.size(); j++) {
+				if (!adjacent_list.get(j).isFilled()) {
+					stuck = false;
+				} else {
+				    adjacent_list.remove(j);
+				}
+			}
+			if (stuck) {
+				return false;
+			} 
+			
+			//grab a site
+			int idx = gen.nextInt(adjacent_list.size());
+			
+			lattice.placeAcid(next, adjacent_list.get(idx));
+			
+			curr = adjacent_list.get(idx);
+		}
+		return true;
+	}
 }
