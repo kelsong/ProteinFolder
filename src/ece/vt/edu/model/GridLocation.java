@@ -61,7 +61,7 @@ public class GridLocation {
 					GridLocation temp = new GridLocation(x, y-1);
 					adjacentLocs.add(temp);
 					if(y < edge_bound-1){
-						temp = new GridLocation(x, y-1);
+						temp = new GridLocation(x, y+1);
 						adjacentLocs.add(temp);
 					}
 				}
