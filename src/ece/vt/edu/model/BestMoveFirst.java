@@ -88,6 +88,8 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			if(!acidPlaced)
 			{
 				System.out.println("Algorithm Failure!!! Could not place acid!\nShutting down.");
+				System.out.println("Lattice at time of failure...");
+				lattice.printBeads();
 				return false;
 			}
 			
