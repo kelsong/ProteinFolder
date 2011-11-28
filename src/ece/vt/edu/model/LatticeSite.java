@@ -6,7 +6,7 @@ public class LatticeSite {
 	GridLocation loc;
 	
 	boolean site_filled; 
-	LatticeBead slot;
+	LatticeBead bead;
 	
 	public LatticeSite(){
 		loc = new GridLocation();
@@ -35,17 +35,17 @@ public class LatticeSite {
 	}
 	
 	public void removeBead(){ 
-		slot = null;
+		bead = null;
 		site_filled = false;
 	}
 	
 	public void addBead(LatticeBead new_bead){
-		slot = new_bead;
+		bead = new_bead;
 		site_filled = true;
 	}
 	
 	public LatticeBead getBead()
 	{
-		return slot;
+		return bead;
 	}
 }

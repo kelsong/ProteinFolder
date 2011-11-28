@@ -1,6 +1,8 @@
 package ece.vt.edu.model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Lattice {
 	int lattice_dim; // by default using 2D, this need to works first before
@@ -13,9 +15,11 @@ public class Lattice {
 	public static final int DISTANCE = 3; // filler number, please don't keep
 	                                      // this.
 	LatticeSite[] lattice;
-	LatticeBead head;
-	LatticeBead tail;
+	//LatticeBead head;
+	//LatticeBead tail;
 	
+	List<LatticeBead> listofBeads;
+
 	public Lattice() {
 		lattice = new LatticeSite[lattice_size * lattice_size];
 		lattice_type = 1; // square
@@ -56,7 +60,7 @@ public class Lattice {
 		return true;
 	}
 	
-	public LatticeSite getLatticeSite(int x, int y, int z)
+	private LatticeSite getLatticeSite(int x, int y, int z)
 	{
 		if(isLattice2D())
 		{
@@ -68,7 +72,7 @@ public class Lattice {
 		}
 	}
 	
-	public LatticeSite getLatticeSite(GridLocation loc){
+	private LatticeSite getLatticeSite(GridLocation loc){
 		if(isLattice2D())
 		{
 			return lattice[loc.getX() * lattice_size + loc.getY()];
@@ -95,9 +99,55 @@ public class Lattice {
 		return adjacent_beads; 
 	}
 	
+	public ArrayList<LatticeSite> getAdjacentSites(LatticeBead bead)
+	{
+		ArrayList<LatticeSite> adjacent_sites = new ArrayList<LatticeSite>();
+		
+		LatticeSite loc = bead.getLocation();
+		ArrayList<GridLocation> adj_loc = loc.getAdjacentSites(true, lattice_size);
+		
+		for(int i = 0; i < adj_loc.size(); i++){
+			LatticeSite adj_temp = getLatticeSite(adj_loc.get(i));
+			adjacent_sites.add(adj_temp);
+		}
+		
+		return adjacent_sites;
+		
+	}
+	
+	public LatticeSite getRandomSite()
+	{
+		int x=new Random().nextInt(lattice_dim);
+		int y=new Random().nextInt(lattice_dim);
+		int z=new Random().nextInt(lattice_dim);
+		
+		if(isLattice2D())
+		{
+			return getLatticeSite(x, y, 0);
+		}
+		else
+		{
+			return getLatticeSite(x, y, z);
+		}
+	}
+	
+	public boolean removeLastBead()
+	{
+		if(listofBeads.size()==0)
+		{
+			return false;
+		}
+		else
+		{
+			listofBeads.remove(listofBeads.size()-1);
+			return true;
+		}
+	}
+	
 	public LatticeBead getHead()
 	{
-		return head;
+		//return head;
+		return listofBeads.get(0);
 	}
 	
 	public void initializeBeadChain(Protein init) {
@@ -114,16 +164,28 @@ public class Lattice {
 		return lattice_dim;
 	}
 	
-	public boolean placeAcid(AAcid acid, int x, int y, int z)
+	public LatticeBead placeAcid(AAcid acid, LatticeSite site)
+	{
+		return null;
+	}
+	
+	public LatticeBead placeAcid(AAcid acid, GridLocation loc)
+	{
+		return placeAcid(acid, loc.getX(), loc.getY(), loc.getZ());
+	}
+	
+	public LatticeBead placeAcid(AAcid acid, int x, int y, int z)
 	{
 		LatticeSite site=getLatticeSite(x, y, z);
 		
 		if(site.isFilled())
-			return false;
+			return null;
 		
 		LatticeBead bead=new LatticeBead(acid);
 		site.addBead(bead);
 		
-		return true;
+		listofBeads.add(bead);
+		
+		return bead;
 	}
 }
