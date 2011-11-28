@@ -92,4 +92,9 @@ public class LatticeBead {
 		pred=null;
 		succ=null;
 	}
+	
+	public String toString()
+	{
+		return "Acid "+acid+" at location "+location;
+	}
 }

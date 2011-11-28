@@ -48,6 +48,12 @@ public class HHRule extends EnergyRule{
 		}
 		
 		return bondCount*1;
+	}
+	
+	public String toString()
+	{
+		return "HH Rule";
+	}
 		
 //		while(bead.succ!=null)
 //		{
@@ -125,7 +131,7 @@ public class HHRule extends EnergyRule{
 						 runningScore+=numHNeighbors*-1;
 					}
 				}
-			}*/
+			}
 	
-	}
+	}*/
 }

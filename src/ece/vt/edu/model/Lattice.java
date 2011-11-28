@@ -121,7 +121,6 @@ public class Lattice {
 	
 	public List<LatticeSite> getAdjacentSites(LatticeSite site)
 	{
-		System.out.println("Function is broken, get double Y results...");
 		ArrayList<LatticeSite> adjacent_sites = new ArrayList<LatticeSite>();
 		
 		ArrayList<GridLocation> adj_loc = site.getAdjacentSites(true, lattice_size);
@@ -192,7 +191,13 @@ public class Lattice {
 	
 	public LatticeBead placeAcid(AAcid acid, LatticeSite site)
 	{
-		System.out.println("Placing Acid "+acid.toString()+" at location "+site.toString());
+		//System.out.println("Placing Acid "+acid.toString()+" at location "+site.toString());
+		
+		if(site.isFilled())
+		{
+			System.out.println("Can't place acid "+acid+" site "+site+" is filled...");
+			return null;
+		}
 		
 		//create new bead
 		LatticeBead newBead=new LatticeBead(acid);
@@ -212,6 +217,14 @@ public class Lattice {
 	public List<LatticeBead> getListofBeads()
 	{
 		return listofBeads;
+	}
+	
+	public void printBeads()
+	{
+		for(LatticeBead bead: listofBeads)
+		{
+			System.out.println(bead);
+		}
 	}
 	
 //	private LatticeBead placeAcid(AAcid acid, GridLocation loc)

@@ -28,6 +28,18 @@ public class Protein {
 		return acids.size();
 	}
 	
+	public String toString()
+	{
+		String s="";
+		for(AAcid acid : acids)
+		{
+			s+=acid+",";
+		}
+		s+="\n";
+		
+		return s;
+	}
+	
 	//need this function because I can't get readFile to work
 	public void parseString(String proteinStr)
 	{
