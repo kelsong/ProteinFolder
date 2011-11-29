@@ -7,7 +7,7 @@ public class JasonTestBench {
 	 */
 	public static void main(String[] args) 
 	{
-		String testString="H,H,P,H,P,P,H";
+		String testString="H,H,H,H";
 		Protein protein=new Protein();
 		protein.parseString(testString);
 		

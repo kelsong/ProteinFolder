@@ -3,7 +3,6 @@ package ece.vt.edu.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 public class HHRule extends EnergyRule{
 	
@@ -12,7 +11,7 @@ public class HHRule extends EnergyRule{
 	{
 		
 		//hash set to keep track of the bonds we've counted
-		TreeSet<AcidBond> bondSet=new TreeSet<AcidBond>();
+		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
 		
 		//count the number of bond
 		int bondCount=0;
@@ -30,10 +29,6 @@ public class HHRule extends EnergyRule{
 				if(neighbor.getAcid().isAcidHydrophobic())
 				{
 					AcidBond newBond = new AcidBond(bead,neighbor);
-					
-					/*
-					 * TODO This doesn't actually check if A==B and B==A
-					 */
 					
 					//check to see if bond had already been counter
 					if(!bondSet.contains(newBond))

@@ -12,36 +12,42 @@ public class AcidBond implements Comparable<AcidBond>
 		
 		//System.out.println("Creating bond: "+a.getAcid() + " "+a.getAcid());
 	}
-
-	public boolean equals(AcidBond that)
+	
+	public String toString()
 	{
-		if(this.a==that.a && this.b==that.b)
-		{
-			return true;
-		}
-		else if(this.a==that.b && this.b==that.a)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return "("+a+","+b+")";
 	}
 
 	@Override
 	public int compareTo(AcidBond that) {
 		if(this.a==that.a && this.b==that.b)
 		{
-			return 1;
+			return 0;
 		}
 		else if(this.a==that.b && this.b==that.a)
 		{
-			return 1;
+			return 0;
 		}
 		else
 		{
-			return 0;
+			return 1;
 		}
+	}
+	
+	public boolean equals(Object that)
+	{
+		if(compareTo((AcidBond)that)==1)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public int hashCode()
+	{
+		return a.hashCode()+b.hashCode();
 	}
 }

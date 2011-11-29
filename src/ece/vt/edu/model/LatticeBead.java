@@ -95,6 +95,6 @@ public class LatticeBead {
 	
 	public String toString()
 	{
-		return "Acid "+acid+" at location "+location;
+		return acid + "@" + location;
 	}
 }
