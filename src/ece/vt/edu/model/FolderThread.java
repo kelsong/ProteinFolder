@@ -1,4 +1,5 @@
 package ece.vt.edu.model;
 
-public class FolderThread {
+public class FolderThread extends Thread{
+	
 }
