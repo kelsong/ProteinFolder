@@ -14,13 +14,13 @@ public class BestMoveFirst extends FoldingAlgorithm {
 	@Override
 	boolean fold(Protein protein, EnergyRule energy, Lattice lattice) 
 	{
-		System.out.println("Hello world! Attempting to fold protein\n"+protein+"with Energy Rule: "+energy);
+		//System.out.println("Hello world! Attempting to fold protein\n"+protein+"with Energy Rule: "+energy);
 		int proteinLength=protein.getLength();
 		
 		//get a random site in the lattice and place a bead there
 		LatticeSite currentSite=lattice.getRandomSite();
 		lattice.placeAcid(protein.getAcid(0), currentSite);
-		System.out.println("Placing initial acid at "+currentSite);
+		//System.out.println("Placing initial acid at "+currentSite);
 		
 		//walk through the chain, selecting the best possible placement 
 		//based upon only the next bead
@@ -46,10 +46,13 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			//rate each bead placement and choose the one that's best
 			ArrayList<Integer> scoresIndex=new ArrayList<Integer>();
 			
+			//System.out.println("Current site: "+currentSite);
+			
 			int bestScore=0;
 			boolean acidPlaced=false;
 			for(int neighborIndex=0;neighborIndex<sites.size();neighborIndex++)
 			{
+				
 				//get a neighbor
 				LatticeSite potentialSite=sites.get(neighborIndex);
 				
@@ -57,12 +60,13 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				LatticeBead bead=lattice.placeAcid(acid, potentialSite);
 				if(bead==null)
 				{
-					acidPlaced=false;
+					acidPlaced|=false;
 					//System.out.println("Couldn't place acid, continuing...");
 					continue;
 				}
 				else
 				{
+					//System.out.println("Potential site: "+potentialSite);
 					acidPlaced=true;
 				}
 				
@@ -92,9 +96,9 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			if(!acidPlaced)
 			{
-				System.out.println("Algorithm Failure!!! Could not place acid!\nShutting down.");
-				System.out.println("Lattice at time of failure...");
-				lattice.printBeads();
+				System.out.println("Algorithm Failure!!!");
+				//System.out.println("Lattice at time of failure: ");
+				//lattice.printBeads();
 				return false;
 			}
 			
@@ -103,7 +107,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				
 			//out of all the potential neighbors, choose the one that had the best score
 			//and get the bead associated with that site
-			System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
+			//System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
 				
 			lattice.placeAcid(acid, sites.get(indexOfBestScore));
 			
@@ -111,11 +115,11 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 		}
 		
-		//print final protein
-		lattice.printBeads();
+		//System.out.println("////Simulation Solution////");
+		System.out.println("Final Score: "+energy.scoreLattice(lattice));
+		//System.out.println("Lattice Structure: ");
+		//lattice.printBeads();
 		
 		return true;
 	}
-	
-
 }
