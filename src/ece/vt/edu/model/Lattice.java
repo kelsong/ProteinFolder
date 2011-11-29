@@ -201,7 +201,7 @@ public class Lattice {
 		
 		if(site.isFilled())
 		{
-			System.out.println("Can't place acid "+acid+" site "+site+" is filled...");
+			//System.out.println("Can't place acid "+acid+" site "+site+" is filled...");
 			return null;
 		}
 		

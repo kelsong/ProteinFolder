@@ -18,24 +18,24 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		int proteinLength=protein.getLength();
 		
 		//get a random site in the lattice and place a bead there
-		LatticeSite site=lattice.getRandomSite();
-		lattice.placeAcid(protein.getAcid(0), site);
-		System.out.println("Placing initial acid at "+site);
+		LatticeSite currentSite=lattice.getRandomSite();
+		lattice.placeAcid(protein.getAcid(0), currentSite);
+		System.out.println("Placing initial acid at "+currentSite);
 		
 		//walk through the chain, selecting the best possible placement 
 		//based upon only the next bead
-		for(int i=1;i<proteinLength;i++)
+		for(int acidIndex=1;acidIndex<proteinLength;acidIndex++)
 		{
-			if(site==null)
+			if(currentSite==null)
 			{
 				System.out.println("Couldn't place bead, something bad happened...");
 			}
 			
 			//get next bead/acid in the chain
-			AAcid acid=protein.getAcid(i);
+			AAcid acid=protein.getAcid(acidIndex);
 			
 			//get list of neighbors from last placed bead
-			List<LatticeSite> sites=lattice.getAdjacentSites(site);
+			List<LatticeSite> sites=lattice.getAdjacentSites(currentSite);
 			
 			/*System.out.println("Neighbors of "+site+" are: ");
 			for(LatticeSite s : sites)
@@ -48,10 +48,10 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			int bestScore=0;
 			boolean acidPlaced=false;
-			for(int j=0;j<sites.size();j++)
+			for(int neighborIndex=0;neighborIndex<sites.size();neighborIndex++)
 			{
 				//get a neighbor
-				LatticeSite potentialSite=sites.get(j);
+				LatticeSite potentialSite=sites.get(neighborIndex);
 				
 				//place in lattice
 				LatticeBead bead=lattice.placeAcid(acid, potentialSite);
@@ -72,13 +72,13 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				if(score>bestScore)
 				{
 					scoresIndex=new ArrayList<Integer>();
-					scoresIndex.add(j);
+					scoresIndex.add(neighborIndex);
 					
 					bestScore=score;
 				}
 				else if(score==bestScore)
 				{
-					scoresIndex.add(j);
+					scoresIndex.add(neighborIndex);
 				}
 				
 				//remove latest bead
@@ -97,19 +97,17 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				lattice.printBeads();
 				return false;
 			}
-			else
-			{
-				int numScores=scoresIndex.size();
-				int indexOfBestScore=scoresIndex.get(new Random().nextInt(numScores));
-				
-				//out of all the potential neighbors, choose the one that had the best score
-				//and get the bead associated with that site
-				System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
-				
-				lattice.placeAcid(acid, sites.get(indexOfBestScore));	
-			}
 			
+			int numScores=scoresIndex.size();
+			int indexOfBestScore=scoresIndex.get(new Random().nextInt(numScores));
+				
+			//out of all the potential neighbors, choose the one that had the best score
+			//and get the bead associated with that site
+			System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
+				
+			lattice.placeAcid(acid, sites.get(indexOfBestScore));
 			
+			currentSite=sites.get(indexOfBestScore);
 			
 		}
 		
