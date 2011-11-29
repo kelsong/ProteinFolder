@@ -15,6 +15,11 @@ public class RandomWalk extends FoldingAlgorithm {
 		lattice.placeAcid(protein.getAcid(0), start);
 		for (int i = 1; i < protein_length; i++) {
 		    	LatticeSite curr = start;
+		    	
+		    	if(curr == null){
+		    	    //bad things happened so fail
+		    	    return false; 
+		    	}
 			List<LatticeSite> adjacent_list = lattice.getAdjacentSites(curr);
 			AAcid next = protein.getAcid(i);
 			// check for stuck
