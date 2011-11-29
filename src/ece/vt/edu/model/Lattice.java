@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+//Have to make this thread safe
+
 public class Lattice {
 	int lattice_dim; // by default using 2D, this need to works first before
 	                 // trying to make 3D happen.

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import ece.vt.edu.model.AAcid.AcidName;
 import ece.vt.edu.model.AAcid.AcidType;
 
+//Note: ONLY SOME OF THIS IS THREAD SAFE! only use accessor methods in multithreading!
 public class Protein {
 	LinkedList<AAcid> acids;
 	
