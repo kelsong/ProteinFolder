@@ -96,7 +96,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			if(!acidPlaced)
 			{
-				System.out.println("Algorithm Failure!!!");
+				System.out.println("BestMoveFirst Failure!");
 				//System.out.println("Lattice at time of failure: ");
 				//lattice.printBeads();
 				return false;
@@ -115,8 +115,9 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 		}
 		
+		int finalScore=energy.scoreLattice(lattice);
 		//System.out.println("////Simulation Solution////");
-		System.out.println("Final Score: "+energy.scoreLattice(lattice));
+		System.out.println("Final Score: "+finalScore);
 		//System.out.println("Lattice Structure: ");
 		//lattice.printBeads();
 		

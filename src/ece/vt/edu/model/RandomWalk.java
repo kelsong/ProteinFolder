@@ -26,7 +26,9 @@ public class RandomWalk extends FoldingAlgorithm {
 				    adjacent_list.remove(j);
 				}
 			}
-			if (stuck) {
+			if (stuck) 
+			{
+				System.out.println("Random Walk is Stuck...");
 				return false;
 			} 
 			
@@ -37,6 +39,9 @@ public class RandomWalk extends FoldingAlgorithm {
 			
 			curr = adjacent_list.get(idx);
 		}
+		
+		System.out.println("Final Score: "+energy.scoreLattice(lattice));
+		
 		return true;
 	}
 }

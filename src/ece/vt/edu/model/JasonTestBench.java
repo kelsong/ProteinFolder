@@ -7,10 +7,11 @@ public class JasonTestBench {
 	 */
 	public static void main(String[] args) 
 	{
-		String E9_testSequence="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h";
+		String testSequence1="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
+		String testSequence2="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
 		
 		Protein protein=new Protein();
-		protein.parseString(E9_testSequence);
+		protein.parseString(testSequence2);
 
 		int numTrials=50;
 		System.out.println("Beginning trials...");
@@ -21,6 +22,7 @@ public class JasonTestBench {
 			HHRule rule=new HHRule();
 
 			BestMoveFirst alg=new BestMoveFirst();
+			//RandomWalk alg=new RandomWalk();
 			
 			alg.fold(protein, rule, twoD);
 		}
