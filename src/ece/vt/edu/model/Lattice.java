@@ -81,7 +81,7 @@ public class Lattice {
 		}
 	}
 	
-	private LatticeSite getLatticeSite(GridLocation loc){
+	public LatticeSite getLatticeSite(GridLocation loc){
 		if(isLattice2D())
 		{
 			return lattice[loc.getX() * lattice_size + loc.getY()];

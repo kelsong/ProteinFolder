@@ -13,8 +13,11 @@ public class RandomWalk extends FoldingAlgorithm {
 		
 		LatticeSite start = lattice.getRandomSite();
 		lattice.placeAcid(protein.getAcid(0), start);
+		LatticeSite curr = start;
+		
 		for (int i = 1; i < protein_length; i++) {
-		    	LatticeSite curr = start;
+		    	System.out.println("Iteration #" + i);
+		    	lattice.printBeads();
 		    	
 		    	if(curr == null){
 		    	    //bad things happened so fail
