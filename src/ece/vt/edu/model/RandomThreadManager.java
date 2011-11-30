@@ -6,7 +6,6 @@ public class RandomThreadManager extends ThreadManager{
     		public static final int NUM_THREADS = 100;
     		public static final int NUM_ITER = 1; 
     		
-		
 		ArrayList<State> best_states = new ArrayList<State>();
 		//build the ability to launch many threads from this manager. 
 		//Not entirely necessary just nice to have it contained.
