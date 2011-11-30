@@ -12,7 +12,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 
 	
 	@Override
-	boolean fold(Protein protein, EnergyRule energy, Lattice lattice) 
+	boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState) 
 	{
 		//System.out.println("Hello world! Attempting to fold protein\n"+protein+"with Energy Rule: "+energy);
 		int proteinLength=protein.getLength();

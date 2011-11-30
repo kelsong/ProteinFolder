@@ -26,7 +26,7 @@ public class JasonTestBench {
 			BestMoveFirst alg=new BestMoveFirst();
 			//RandomWalk alg=new RandomWalk();
 			
-			alg.fold(protein, rule, twoD);
+			alg.fold(protein, rule, twoD,false);
 		}
 	}
 

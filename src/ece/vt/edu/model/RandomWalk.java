@@ -7,7 +7,7 @@ import java.util.Random;
 public class RandomWalk extends FoldingAlgorithm {
 	// No state saving for now
 	// start with a truly random walk
-	@Override boolean fold(Protein protein, EnergyRule energy, Lattice lattice) {
+	@Override boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState) {
 		// TODO Auto-generated method stub
 		int protein_length = protein.getLength();
 		Random gen = new Random();

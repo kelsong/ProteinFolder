@@ -45,11 +45,11 @@ public class FolderThread implements Runnable {
 
 	public void run() {
 		if (ref == null) {
-		    	System.out.println("Creating New State");
+		    	//System.out.println("Creating New State");
 			ref = new State();
 		}
 
-		boolean success = folder.fold(protein, rules, local);
+		boolean success = folder.fold(protein, rules, local,false);
 
 		if(success){
 		    ref.recordState(local, rules.scoreLattice(local));
