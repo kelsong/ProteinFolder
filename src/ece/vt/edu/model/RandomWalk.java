@@ -34,9 +34,8 @@ public class RandomWalk extends FoldingAlgorithm {
 					good_neighbors.add(adjacent_list.get(j));
 				}
 			}
-			if (good_neighbors.size() == 0) 
-			{
-				System.out.println("Random Walk is Stuck...");
+			if (good_neighbors.size() == 0) {
+				//System.out.println("Random Walk is Stuck...");
 				return false;
 			} 
 			
