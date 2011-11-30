@@ -7,10 +7,13 @@ public class ProteinTestBench {
 	 */
 	public static void main(String[] args) 
 	{
+	    	String testSequence1="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
+		String testSequence2="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
+		
 		System.out.println("Random Walk Bench...");
 		String testString="H,H,P,H,P,P,H";
 		Protein protein=new Protein();
-		protein.parseString(testString);
+		protein.parseString(testSequence1);
 		
 		//protein.readFile("protein_test.txt");
 		

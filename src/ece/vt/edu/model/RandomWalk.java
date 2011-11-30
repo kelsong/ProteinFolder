@@ -16,8 +16,6 @@ public class RandomWalk extends FoldingAlgorithm {
 		LatticeSite curr = start;
 		
 		for (int i = 1; i < protein_length; i++) {
-		    	System.out.println("Iteration #" + i);
-		    	lattice.printBeads();
 		    	
 		    	if(curr == null){
 		    	    //bad things happened so fail
@@ -27,14 +25,15 @@ public class RandomWalk extends FoldingAlgorithm {
 			AAcid next = protein.getAcid(i);
 			// check for stuck
 			boolean stuck = true;
+			System.out.println("num adjacent spaces: " + adjacent_list.size());
+			List<LatticeSite> good_neighbors = new List<LatticeSite>();
+			
 			for (int j = 0; j < adjacent_list.size(); j++) {
 				if (!adjacent_list.get(j).isFilled()) {
 					stuck = false;
-				} else {
-				    adjacent_list.remove(j);
 				}
 			}
-			if (stuck) 
+			if (good_neighbors.size() == 0) 
 			{
 				System.out.println("Random Walk is Stuck...");
 				return false;
@@ -46,6 +45,9 @@ public class RandomWalk extends FoldingAlgorithm {
 			lattice.placeAcid(next, adjacent_list.get(idx));
 			
 			curr = adjacent_list.get(idx);
+			
+			System.out.println("Iteration #" + i);
+		    	lattice.printBeads();
 		}
 		
 		System.out.println("Final Score: "+energy.scoreLattice(lattice));
