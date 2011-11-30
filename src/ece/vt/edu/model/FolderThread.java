@@ -19,6 +19,20 @@ public class FolderThread implements Runnable {
 	EnergyRule rules;
 	Lattice local;
 	
+	
+	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
+		ref = init;
+
+		if (ref != null) {
+			// apply state to lattice
+			ref.restoreState(local);
+		}
+		
+		folder = alg;
+		protein = prot;
+		rules = rule;
+	}
+	
 	public FolderThread(State init) {
 		ref = init;
 
