@@ -18,8 +18,13 @@ public class FolderThread implements Runnable {
 	Protein protein;
 	EnergyRule rules;
 	Lattice local;
+<<<<<<< HEAD
 
 	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
+=======
+	
+	public FolderThread(State init) {
+>>>>>>> 06f00f4b32c91b1c859884ce4f0efed720375024
 		ref = init;
 
 		if (ref != null) {
