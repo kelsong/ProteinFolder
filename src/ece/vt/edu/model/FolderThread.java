@@ -46,6 +46,7 @@ public class FolderThread implements Runnable {
 class State {
 	ArrayList<GridLocation> bead_loc = new ArrayList<GridLocation>();
 	//need a way to store the AAcids and figure out where to start in the amino acid chain.
+	ArrayList<AAcid> acids = new ArrayList<AAcid>();
 	
 	int fitness;
 
@@ -57,12 +58,13 @@ class State {
 
 		for (int i = 0; i < temp.size(); i++) {
 			bead_loc.add(temp.get(i).getLocation().getGridLocation());
+			acids.add(temp.get(i).getAcid());
 		}
 	}
 
 	public void restoreState(Lattice lattice) {
 		for (int i = 0; i < bead_loc.size(); i++) {
-			//need to figure this out in order to restore the Amino Acids. 
+			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
 	}
 }
