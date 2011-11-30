@@ -3,7 +3,7 @@ package ece.vt.edu.model;
 import java.util.ArrayList;
 public class RandomThreadManager extends ThreadManager{
 	
-    		public static final int NUM_THREADS = 1;
+    		public static final int NUM_THREADS = 100;
     		public static final int NUM_ITER = 1; 
     		
 		
@@ -26,13 +26,29 @@ public class RandomThreadManager extends ThreadManager{
 		    Thread[] threads = new Thread[NUM_THREADS];
 		    for(int i = 0; i<NUM_ITER; i++){
 			for(int j = 0; j < NUM_THREADS; j++){
-			    runnables[i] = new FolderThread(null);
-			    threads[i] = new Thread(runnables[i]);
+			    runnables[j] = new FolderThread(null, folder, foldee, fitness);
+			    threads[j] = new Thread(runnables[j]);
 			}
 			
 			for(int j = 0; j < NUM_THREADS; j++){
-			    threads[i].start();
+			    threads[j].start();
 			}
+			
+			for(int j = 0; j < NUM_THREADS; j++){ // be awesome
+			    try{
+				threads[j].join();
+			    } catch (InterruptedException e){
+				e.printStackTrace();
+			    }
+			}
+		    }
+		    
+		    for(int i=0; i<NUM_THREADS; i++){
+			State st = runnables[i].returnState();
+			if(st == null){
+			    System.out.println("Something is wrong");
+			}
+			System.out.println("Final Score: " + st.getFitness());
 		    }
 		}
 }

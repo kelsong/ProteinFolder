@@ -47,11 +47,11 @@ public class RandomWalk extends FoldingAlgorithm {
 			
 			curr = adjacent_list.get(idx);
 			
-			System.out.println("Iteration #" + i);
-		    	lattice.printBeads();
+			//System.out.println("Iteration #" + i);
+		    	//lattice.printBeads();
 		}
 		
-		System.out.println("Final Score: "+energy.scoreLattice(lattice));
+		//System.out.println("Final Score: "+energy.scoreLattice(lattice));
 		
 		return true;
 	}

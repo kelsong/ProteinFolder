@@ -22,11 +22,12 @@ public class FolderThread implements Runnable {
 	
 	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
 		ref = init;
-
+		local = new Lattice(true, 100, true);
+		
 		if (ref != null) {
 			// apply state to lattice
 			ref.restoreState(local);
-		}
+		} 
 		
 		folder = alg;
 		protein = prot;
@@ -44,15 +45,23 @@ public class FolderThread implements Runnable {
 
 	public void run() {
 		if (ref == null) {
+		    	System.out.println("Creating New State");
 			ref = new State();
 		}
 
-		folder.fold(protein, rules, local);
+		boolean success = folder.fold(protein, rules, local);
 
-		ref.recordState(local, rules.scoreLattice(local));
+		if(success){
+		    ref.recordState(local, rules.scoreLattice(local));
+		} else {
+		    ref.setFitness(0);
+		}
 	}
 
 	public State returnState() {
+	    	if(ref == null){
+	    	    System.out.println("Something wrong here");
+	    	}
 		return ref;
 	}
 }
@@ -62,7 +71,7 @@ class State {
 	//need a way to store the AAcids and figure out where to start in the amino acid chain.
 	ArrayList<AAcid> acids = new ArrayList<AAcid>();
 	
-	int fitness;
+	int fitness = 0;
 
 	public void recordState(Lattice lattice, int score) {
 		bead_loc.clear();
@@ -80,5 +89,13 @@ class State {
 		for (int i = 0; i < bead_loc.size(); i++) {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
+	}
+	
+	public void setFitness(int score){
+	    fitness = score;
+	}
+	
+	public int getFitness(){
+	    return fitness;
 	}
 }

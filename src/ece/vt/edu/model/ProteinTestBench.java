@@ -23,7 +23,10 @@ public class ProteinTestBench {
 		
 		RandomWalk alg=new RandomWalk();
 		
-		alg.fold(protein, rule, twoD);
+		ThreadManager manage = new RandomThreadManager(alg, protein, rule);
+		
+		manage.startManager();
+		//alg.fold(protein, rule, twoD);
 	}
 
 }
