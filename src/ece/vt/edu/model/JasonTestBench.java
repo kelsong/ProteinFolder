@@ -1,7 +1,5 @@
 package ece.vt.edu.model;
 
-import java.util.ArrayList;
-
 public class JasonTestBench {
 
 	/**
