@@ -1,6 +1,7 @@
 package ece.vt.edu.model;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomWalk extends FoldingAlgorithm {
@@ -24,13 +25,13 @@ public class RandomWalk extends FoldingAlgorithm {
 			List<LatticeSite> adjacent_list = lattice.getAdjacentSites(curr);
 			AAcid next = protein.getAcid(i);
 			// check for stuck
-			boolean stuck = true;
-			System.out.println("num adjacent spaces: " + adjacent_list.size());
-			List<LatticeSite> good_neighbors = new List<LatticeSite>();
+
+			//System.out.println("num adjacent spaces: " + adjacent_list.size());
+			ArrayList<LatticeSite> good_neighbors = new ArrayList<LatticeSite>();
 			
 			for (int j = 0; j < adjacent_list.size(); j++) {
 				if (!adjacent_list.get(j).isFilled()) {
-					stuck = false;
+				    good_neighbors.add(adjacent_list.get(j));
 				}
 			}
 			if (good_neighbors.size() == 0) 
@@ -40,14 +41,16 @@ public class RandomWalk extends FoldingAlgorithm {
 			} 
 			
 			//grab a site
-			int idx = gen.nextInt(adjacent_list.size());
+			int idx = gen.nextInt(good_neighbors.size());
 			
-			lattice.placeAcid(next, adjacent_list.get(idx));
+			if(lattice.placeAcid(next, good_neighbors.get(idx)) == null){
+			    return false;
+			}
 			
 			curr = adjacent_list.get(idx);
 			
-			System.out.println("Iteration #" + i);
-		    	lattice.printBeads();
+			//System.out.println("Iteration #" + i);
+		    	//lattice.printBeads();
 		}
 		
 		System.out.println("Final Score: "+energy.scoreLattice(lattice));

@@ -16,14 +16,15 @@ public class ProteinTestBench {
 		protein.parseString(testSequence1);
 		
 		//protein.readFile("protein_test.txt");
-		
-		Lattice twoD=new Lattice(true,100,true);
-		
-		HHRule rule=new HHRule();
-		
-		RandomWalk alg=new RandomWalk();
-		
-		alg.fold(protein, rule, twoD);
+		for(int i = 0; i < 100; i++){
+        		Lattice twoD=new Lattice(true,100,true);
+        		
+        		HHRule rule=new HHRule();
+        		
+        		RandomWalk alg=new RandomWalk();
+        		
+        		alg.fold(protein, rule, twoD);
+		}
 	}
 
 }
