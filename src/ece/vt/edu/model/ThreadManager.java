@@ -1,6 +1,6 @@
 package ece.vt.edu.model;
 
-public class ThreadManager {
+abstract public class ThreadManager {
 	
 		FoldingAlgorithm folder;
 		Protein foldee;
@@ -8,4 +8,5 @@ public class ThreadManager {
 		
 		//build the ability to launch many threads from this manager. 
 		//Not entirely necessary just nice to have it contained.
+		abstract public void startManager();
 }
