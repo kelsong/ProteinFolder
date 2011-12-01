@@ -14,6 +14,7 @@ public class JasonTestBench {
 		String simpleSequence="h,h,h,h,p";
 		
 		BestMoveFirst alg=new BestMoveFirst();
+		//RandomWalk alg = new RandomWalk();
 		
 		Protein protein=new Protein();
 		protein.parseString(testSequence1);

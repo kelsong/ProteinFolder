@@ -23,11 +23,11 @@ public class AntColonyManager extends ThreadManager {
 	@Override
 	public void startManager() 
 	{
-		int NUM_THREADS=1;
+		int NUM_THREADS=100;
 
 		for(int iter=0;iter<protein.getLength();iter++)
-		{
-			System.out.println("\nIteration: "+iter);
+		{	
+			System.out.println("\nIteration: "+(iter+1));
 			
 			runnables.clear();
 			threads.clear();
@@ -84,8 +84,11 @@ public class AntColonyManager extends ThreadManager {
 
 			//add the states that are greater than the average
 			//to the pool of potential next states
-			for(State s: statePool)
+			//for(State s: statePool)
+			for(int i=0;i<statePool.size();i++)
 			{
+				State s = statePool.get(i);
+				
 				//if score is less than average fitness
 				if(s.getFitness()<average)
 				{
@@ -101,14 +104,25 @@ public class AntColonyManager extends ThreadManager {
 			int score=state.getFitness();
 			
 			System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
-			thread.local.printBeads();
+			//thread.local.printBeads();
 		}
 	}
 
 	private void waitForThreads()
 	{
 		//wait until all threads are dead
-		boolean allThreadsDead = false;
+		
+		for(Thread t : threads)
+		{
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		/*boolean allThreadsDead = false;
 		while (!allThreadsDead) {
 			int counter = 0;
 			for (int i = 0; i < threads.size(); i++) {
@@ -120,7 +134,7 @@ public class AntColonyManager extends ThreadManager {
 			if (counter == threads.size()) {
 				allThreadsDead = true;
 			}
-		}
+		}*/
 	}
 
 }

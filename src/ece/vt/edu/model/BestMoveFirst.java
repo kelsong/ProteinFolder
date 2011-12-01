@@ -140,12 +140,6 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		
 		finalScore=energy.scoreLattice(lattice);
 		
-		if(finalScore>9)
-		{
-			System.out.println("Bad final score...");
-			//lattice.printBeads();
-		}
-		
 		//System.out.println("////Simulation Solution////");
 		System.out.println("Final Score: "+finalScore);
 		//System.out.println("Lattice Structure: ");
