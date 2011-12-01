@@ -19,6 +19,7 @@ public class FolderThread implements Runnable {
 	EnergyRule rules;
 	Lattice local;
 	
+	int finalScore=-1;
 	
 	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
 		ref = init;
@@ -63,6 +64,11 @@ public class FolderThread implements Runnable {
 	    	    System.out.println("Something wrong here");
 	    	}
 		return ref;
+	}
+	
+	public void setState(State newState)
+	{
+		ref=newState;
 	}
 }
 

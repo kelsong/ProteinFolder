@@ -235,6 +235,16 @@ public class Lattice {
 		}
 	}
 	
+	public int getNumberBeads()
+	{
+		return listofBeads.size();
+	}
+	
+	public LatticeSite getLastSite()
+	{
+		return listofBeads.get(listofBeads.size()-1).getLocation();
+	}
+	
 //	private LatticeBead placeAcid(AAcid acid, GridLocation loc)
 //	{
 //		return placeAcid(acid, loc.getX(), loc.getY(), loc.getZ());

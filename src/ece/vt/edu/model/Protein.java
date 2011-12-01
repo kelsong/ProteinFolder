@@ -29,6 +29,12 @@ public class Protein {
 		return acids.size();
 	}
 	
+	//add a new acid to the end of the list
+	public void addAcid(AAcid a)
+	{
+		acids.add(a);
+	}
+	
 	public String toString()
 	{
 		String s="";

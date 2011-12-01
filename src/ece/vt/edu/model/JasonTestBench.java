@@ -12,7 +12,18 @@ public class JasonTestBench {
 		String testSequence1="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
 		String testSequence2="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
 		
+		BestMoveFirst alg=new BestMoveFirst();
+		
 		Protein protein=new Protein();
+		protein.parseString(testSequence1);
+		
+		HHRule rule=new HHRule();
+		
+		AntColonyManager antManager = new AntColonyManager(alg, protein, rule);
+		
+		antManager.startManager();
+		
+		/*Protein protein=new Protein();
 		protein.parseString(testSequence2);
 
 		int numTrials=50;
@@ -27,7 +38,7 @@ public class JasonTestBench {
 			//RandomWalk alg=new RandomWalk();
 			
 			alg.fold(protein, rule, twoD,false);
-		}
+		}*/
 	}
 
 }

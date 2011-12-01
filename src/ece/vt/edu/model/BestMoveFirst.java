@@ -10,21 +10,36 @@ import java.util.Random;
 
 public class BestMoveFirst extends FoldingAlgorithm {
 
+	int finalScore=-1;
 	
 	@Override
 	boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState) 
 	{
 		//System.out.println("Hello world! Attempting to fold protein\n"+protein+"with Energy Rule: "+energy);
 		int proteinLength=protein.getLength();
+	
+		LatticeSite currentSite=null;
+		int startingIndex=-1;
+		//we're starting from a restored state
+		//go to the end of the chain
+		if(restoredState) 
+		{
+			currentSite=lattice.getLastSite();
+			startingIndex=lattice.getNumberBeads();
+		}
+		else
+		{
+			//get a random site in the lattice and place a bead there
+			currentSite=lattice.getRandomSite();
+			lattice.placeAcid(protein.getAcid(0), currentSite);
+			startingIndex=1;
+		}
 		
-		//get a random site in the lattice and place a bead there
-		LatticeSite currentSite=lattice.getRandomSite();
-		lattice.placeAcid(protein.getAcid(0), currentSite);
 		//System.out.println("Placing initial acid at "+currentSite);
 		
 		//walk through the chain, selecting the best possible placement 
 		//based upon only the next bead
-		for(int acidIndex=1;acidIndex<proteinLength;acidIndex++)
+		for(int acidIndex=startingIndex;acidIndex<proteinLength;acidIndex++)
 		{
 			if(currentSite==null)
 			{
@@ -115,7 +130,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 		}
 		
-		int finalScore=energy.scoreLattice(lattice);
+		finalScore=energy.scoreLattice(lattice);
 		//System.out.println("////Simulation Solution////");
 		System.out.println("Final Score: "+finalScore);
 		//System.out.println("Lattice Structure: ");
