@@ -2,6 +2,8 @@ package ece.vt.edu.montecarlo;
 
 import java.util.ArrayList;
 
+
+
 public class AbstractLattice {
     
     ArrayList<MoveDir2D> chain_2d;
@@ -25,15 +27,15 @@ public class AbstractLattice {
     }
     
     public boolean validChain(){
-	
+	return false;
     }
     
-    public void attemptChange(int chain_item, MoveDir){
+    public void attemptChange(int chain_item, MoveDir dir){
 	
     }
 }
 
-abstract class MoveDir(){
+abstract class MoveDir{
     
 }
 
