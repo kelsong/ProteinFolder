@@ -34,7 +34,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			LatticeBead bead=lattice.placeAcid(protein.getAcid(0), currentSite);
 			startingIndex=1;
 			
-			System.out.println(bead.getAcid()+" "+currentSite+" "+"initial");
+			//System.out.println(bead.getAcid()+" "+currentSite+" "+"initial");
 		}
 		
 		//System.out.println("Placing initial acid at "+currentSite);
@@ -127,7 +127,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 				
 			LatticeBead bead=lattice.placeAcid(acid, sites.get(indexOfBestScore));
-			System.out.println("Insert "+bead.getAcid()+" "+sites.get(indexOfBestScore)+" "+bestScore);
+			//System.out.println("Insert "+bead.getAcid()+" "+sites.get(indexOfBestScore)+" "+bestScore);
 			
 			if(bead==null)
 			{

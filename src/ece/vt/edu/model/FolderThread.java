@@ -96,11 +96,14 @@ class State {
 	//need a way to store the AAcids and figure out where to start in the amino acid chain.
 	ArrayList<AAcid> acids = new ArrayList<AAcid>();
 	
+	//ArrayList<LatticeBead> savedList = new ArrayList<LatticeBead>();
+	
 	int fitness = 0;
 
 	public void recordState(Lattice lattice, int score) {
 		bead_loc.clear();
-
+		acids.clear();
+		
 		fitness = score;
 		List<LatticeBead> temp = lattice.getListofBeads();
 
@@ -109,8 +112,16 @@ class State {
 			acids.add(temp.get(i).getAcid());
 		}
 		
-		System.out.println("Saving state:");
-		lattice.printBeads();
+		//System.out.println("Saving state:");
+		//lattice.printBeads();
+		
+		/*System.out.println("Copy:");
+		for(int i=0;i<acids.size();i++)
+		{
+			System.out.println(acids.get(i)+" "+bead_loc.get(i));
+		}*/
+		
+		
 	}
 
 	public void restoreState(Lattice lattice) {
@@ -120,8 +131,8 @@ class State {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
 		
-		System.out.println("Lattice After Restore:");
-		lattice.printBeads();
+		//System.out.println("Lattice After Restore:");
+		//lattice.printBeads();
 	}
 	
 	public void setFitness(int score){
