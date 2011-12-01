@@ -171,7 +171,7 @@ public class Lattice {
 		else
 		{
 			LatticeBead temp = listofBeads.removeLast(); //remove from list
-			temp.deleteBead(); //remove site refernce
+			temp.deleteBead(); //remove site reference
 			temp = null; //remove temp reference, should be available for garbage collection
 			return true;
 		}
@@ -222,6 +222,11 @@ public class Lattice {
 		return newBead;
 	}
 	
+	public void clearLattice()
+	{
+		while(removeLastBead()){}
+	}
+	
 	public List<LatticeBead> getListofBeads()
 	{
 		return listofBeads;
@@ -229,6 +234,11 @@ public class Lattice {
 	
 	public void printBeads()
 	{
+		if(listofBeads.isEmpty())
+		{
+			System.out.println("Empty");
+		}
+		
 		for(LatticeBead bead: listofBeads)
 		{
 			System.out.println(bead);

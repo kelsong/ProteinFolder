@@ -25,14 +25,16 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		if(restoredState) 
 		{
 			currentSite=lattice.getLastSite();
-			startingIndex=lattice.getNumberBeads();
+			startingIndex=0;
 		}
 		else
 		{
 			//get a random site in the lattice and place a bead there
 			currentSite=lattice.getRandomSite();
-			lattice.placeAcid(protein.getAcid(0), currentSite);
+			LatticeBead bead=lattice.placeAcid(protein.getAcid(0), currentSite);
 			startingIndex=1;
+			
+			System.out.println(bead.getAcid()+" "+currentSite+" "+"initial");
 		}
 		
 		//System.out.println("Placing initial acid at "+currentSite);
@@ -122,15 +124,28 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				
 			//out of all the potential neighbors, choose the one that had the best score
 			//and get the bead associated with that site
-			//System.out.println("Best Site Found at "+sites.get(indexOfBestScore)+" with score "+bestScore);
+			
 				
-			lattice.placeAcid(acid, sites.get(indexOfBestScore));
+			LatticeBead bead=lattice.placeAcid(acid, sites.get(indexOfBestScore));
+			System.out.println("Insert "+bead.getAcid()+" "+sites.get(indexOfBestScore)+" "+bestScore);
+			
+			if(bead==null)
+			{
+				System.out.println("Something really terrible happened...");
+			}
 			
 			currentSite=sites.get(indexOfBestScore);
 			
 		}
 		
 		finalScore=energy.scoreLattice(lattice);
+		
+		if(finalScore>9)
+		{
+			System.out.println("Bad final score...");
+			//lattice.printBeads();
+		}
+		
 		//System.out.println("////Simulation Solution////");
 		System.out.println("Final Score: "+finalScore);
 		//System.out.println("Lattice Structure: ");

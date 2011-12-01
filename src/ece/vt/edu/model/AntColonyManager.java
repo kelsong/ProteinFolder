@@ -23,10 +23,12 @@ public class AntColonyManager extends ThreadManager {
 	@Override
 	public void startManager() 
 	{
-		int NUM_THREADS=2;
+		int NUM_THREADS=1;
 
 		for(int iter=0;iter<protein.getLength();iter++)
 		{
+			System.out.println("\nIteration: "+iter);
+			
 			runnables.clear();
 			threads.clear();
 			
@@ -34,10 +36,12 @@ public class AntColonyManager extends ThreadManager {
 			Protein testChain = new Protein();
 			
 			//pull acids from the original chain
-			for(int i=0;i<iter+1;i++)
+			testChain.addAcid(protein.getAcid(iter));
+			
+			/*for(int i=0;i<iter+1;i++)
 			{
 				testChain.addAcid(protein.getAcid(i));
-			}
+			}*/
 
 			//stage and create all threads
 			for(int i=0;i<NUM_THREADS;i++)
@@ -65,7 +69,7 @@ public class AntColonyManager extends ThreadManager {
 			//wait for all the threads
 			waitForThreads();
 
-			//calulate average of all the trials
+			//Calculate average of all the trials
 			statePool.clear();
 			double average=0;
 			for(FolderThread trial: runnables)
@@ -88,6 +92,16 @@ public class AntColonyManager extends ThreadManager {
 					statePool.remove(s);
 				}
 			}
+		}
+		
+		//print out final scores
+		for(FolderThread thread : runnables)
+		{
+			State state=thread.returnState();
+			int score=state.getFitness();
+			
+			System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
+			thread.local.printBeads();
 		}
 	}
 

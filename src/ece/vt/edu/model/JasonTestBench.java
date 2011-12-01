@@ -11,6 +11,7 @@ public class JasonTestBench {
 	{
 		String testSequence1="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
 		String testSequence2="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
+		String simpleSequence="h,h,h,h,p";
 		
 		BestMoveFirst alg=new BestMoveFirst();
 		

@@ -21,6 +21,9 @@ public class FolderThread implements Runnable {
 	
 	int finalScore=-1;
 	
+	static int counter=0;
+	int threadID;
+	
 	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
 		ref = init;
 		local = new Lattice(true, 100, true);
@@ -33,6 +36,13 @@ public class FolderThread implements Runnable {
 		folder = alg;
 		protein = prot;
 		rules = rule;
+		
+		threadID=counter++;
+	}
+	
+	public int getThreadID()
+	{
+		return threadID;
 	}
 	
 	public FolderThread(State init) {
@@ -46,9 +56,15 @@ public class FolderThread implements Runnable {
 
 	public void run() {
 		boolean restoredState=false;
-		if (ref == null) {
-		    	//System.out.println("Creating New State");
+		
+		if (ref == null) 
+		{
+		    //System.out.println("Creating New State");
 			ref = new State();
+			restoredState=false;
+		}
+		else
+		{
 			restoredState=true;
 		}
 		
@@ -92,12 +108,20 @@ class State {
 			bead_loc.add(temp.get(i).getLocation().getGridLocation());
 			acids.add(temp.get(i).getAcid());
 		}
+		
+		System.out.println("Saving state:");
+		lattice.printBeads();
 	}
 
 	public void restoreState(Lattice lattice) {
+		lattice.clearLattice();
+		
 		for (int i = 0; i < bead_loc.size(); i++) {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
+		
+		System.out.println("Lattice After Restore:");
+		lattice.printBeads();
 	}
 	
 	public void setFitness(int score){
