@@ -13,7 +13,7 @@ public class ProteinTestBench {
 		System.out.println("Random Walk Bench...");
 		String testString="H,H,P,H,P,P,H";
 		Protein protein=new Protein();
-		protein.parseString(testSequence1);
+		protein.parseString(testSequence2);
 		
 		//protein.readFile("protein_test.txt");
 		
