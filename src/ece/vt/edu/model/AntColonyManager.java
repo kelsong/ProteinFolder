@@ -27,11 +27,14 @@ public class AntColonyManager extends ThreadManager {
 
 		for(int iter=0;iter<protein.getLength();iter++)
 		{
+			runnables.clear();
+			threads.clear();
+			
 			//test chain to be used in this iteration
 			Protein testChain = new Protein();
 			
 			//pull acids from the original chain
-			for(int i=0;i<protein.getLength();i++)
+			for(int i=0;i<iter+1;i++)
 			{
 				testChain.addAcid(protein.getAcid(i));
 			}
