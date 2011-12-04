@@ -11,13 +11,27 @@ public class HHRule extends EnergyRule{
 	{
 
 		//hash set to keep track of the bonds we've counted
-		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		//HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		BondCounter bondSet = new BondCounter();
 
 		//count the number of bond
 		int bondCount=0;
 
 		//walk through protein chain starting at the head
 		List<LatticeBead> beadList=lattice.getListofBeads();
+		
+		//count number of adjacent H's, subtract from final score
+		int numAdjacent=0;
+		for(int i=0;i<beadList.size()-1;i++)
+		{
+			LatticeBead current=beadList.get(i);
+			LatticeBead next=beadList.get(i+1);
+			
+			if(current.getAcid().isAcidHydrophobic()&&next.getAcid().isAcidHydrophobic())
+			{
+				numAdjacent++;
+			}
+		}
 
 		for(LatticeBead bead : beadList)
 		{
@@ -25,6 +39,7 @@ public class HHRule extends EnergyRule{
 			{
 				//get a list of neighbors for this bead
 				ArrayList<LatticeBead> neighborBead = lattice.getAdjacentBeads(bead);
+				
 				for(LatticeBead neighbor : neighborBead)
 				{
 					//is neighbor hydrophobic
@@ -45,92 +60,50 @@ public class HHRule extends EnergyRule{
 				}
 			}
 		}
-
-		return bondCount*1;
+		
+		//done counting, print out the bond
+		return (bondCount-numAdjacent);
 	}
 
+	class BondCounter
+	{
+		List<AcidBond> bondList=new ArrayList<AcidBond>();
+		
+		boolean contains(AcidBond bond)
+		{
+			if(bondList.isEmpty())
+			{
+				return false;
+			}
+			
+			for(AcidBond element : bondList)
+			{
+				if(element.equals(bond))
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		boolean add(AcidBond bond)
+		{
+			if(contains(bond))
+			{
+				return false;
+			}
+			else
+			{
+				bondList.add(bond);
+				return true;
+			}
+		}
+	}
+
+	
 	public String toString()
 	{
 		return "HH Rule";
 	}
-
-	//		while(bead.succ!=null)
-	//		{
-	//			//get a list of neighbors for this bead
-	//			ArrayList<LatticeBead> neighborBead = lattice.getAdjacentBeads(bead);
-	//			for(LatticeBead neighbor : neighborBead)
-	//			{
-	//				//is neighbor hydrophobic
-	//				if(neighbor.getAcid().isAcidHydrophobic())
-	//				{
-	//					AcidBond newBond = new AcidBond(bead,neighbor);
-	//					
-	//					//check to see if bond had already been counter
-	//					if(!bondSet.contains(newBond))
-	//					{
-	//						//add to set
-	//						bondSet.add(newBond);
-	//						
-	//						//count this bond
-	//						bondCount++;
-	//					}
-	//				}
-	//			}
-	//			
-	//			bead=bead.succ;
-	//		}
-
-	//		return bondCount*-1;
-
-	/*
-		//start at (0,0) and walk through all locations, noting each bond
-		int runningScore=0;
-		int latDimension=lattice.getDimensions();
-
-
-		for(int x=0;x<latDimension;x++)
-		{
-			for(int y=0;y<latDimension;y++)
-			{
-				//get lattice site
-				LatticeSite latticeSite=lat.getLatticeSite(x, y, 0);
-
-				//if site contains an H, check for neighboring H's
-				if(latticeSite.isFilled())
-				{
-					LatticeBead bead=latticeSite.getBead();
-
-					if(bead.getAcid().isAcidHydrophobic())
-					{
-						//count the number of neighboring H's
-						 ArrayList<GridLocation> neighbors=latticeSite.getAdjacentSites(true, 1);
-
-						 int numHNeighbors=0;
-						 for(GridLocation loc : neighbors) //for each neighbor
-						 {
-							 //get the lattice bead at this location
-							 LatticeBead nBead=lat.getLatticeSite(loc.getX(), loc.getY(), 0).getBead();
-
-							 //if neighbor is an acid and this bond hasn't already been score
-							 if(nBead.getAcid().isAcidHydrophobic()) 
-							 {
-								 HHBond newBond=new HHBond(bead,nBead);
-								 if(!bondMap.contains(newBond))
-								 {
-									 //add bond to hash set
-									 bondMap.add(newBond);
-
-									 //increment running score
-									 numHNeighbors++;
-
-								 }
-							 }
-						 }
-
-						 runningScore+=numHNeighbors*-1;
-					}
-				}
-			}
-
-	}*/
 }

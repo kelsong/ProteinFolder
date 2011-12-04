@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ChainGrowthThreadManager extends ThreadManager {
 
-    private static final int NUM_THREADS = 3;
+    private static final int NUM_THREADS = 1;
 
     private ArrayList<State> good_states = new ArrayList<State>();
     private ArrayList<FolderThread> runnables = new ArrayList<FolderThread>();

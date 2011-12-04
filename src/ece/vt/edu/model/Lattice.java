@@ -232,6 +232,16 @@ public class Lattice {
 		return listofBeads;
 	}
 	
+	//prints excel readable versions of the lattice
+	public void printCSM()
+	{
+		for(LatticeBead bead : listofBeads)
+		{
+			LatticeSite site=bead.getLocation();
+			System.out.println(bead.acid+"\t"+site.loc.x+"\t"+site.loc.y+"\t"+site.loc.z);
+		}
+	}
+	
 	public void printBeads()
 	{
 		if(listofBeads.isEmpty())
