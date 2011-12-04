@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+//There are some bugs here. For some reason the lattice gets corrupted and then the state save and restore sometimes fails.
 public class ChainGrowth extends FoldingAlgorithm {
 
 	@Override
@@ -27,32 +28,44 @@ public class ChainGrowth extends FoldingAlgorithm {
 			//if number of placed acids are even, then it is done, else there is more to attempt to grow.
 			
 			int num_placed = lattice.getNumberBeads();
+			//System.out.println("num_placed total: " + num_placed);
 			if(num_placed %2 == 1){ // case one
 				//number of places from middle to start
 				int placed_each_side = (num_placed - 1)/2;
+				//System.out.println("Num placed each side: " + placed_each_side);
 				
+				boolean placed_successful = true;
 				if((middle + placed_each_side) < protein.getLength()){
 					//place the next acid from the top half
-					return attemptAcidPlacement(protein.getAcid(middle+placed_each_side), lattice, middle, placed_each_side, true);
+					 placed_successful = attemptAcidPlacement(protein.getAcid(middle+placed_each_side), lattice, placed_each_side, true);
 				} 
 				if((middle - placed_each_side) >= 0){
 					//place next acid from the bottom half
-					return attemptAcidPlacement(protein.getAcid(middle-placed_each_side), lattice, middle, placed_each_side, false);
+					placed_successful &= attemptAcidPlacement(protein.getAcid(middle-placed_each_side), lattice, placed_each_side, false);
 				}
+				
+				return placed_successful;
 			} else {
+			    	System.out.println("breaking out");
 				return true; // if placed even number you have placed all the acids in the protein, by nature of the growth.
 			}
 			
 		}
-		return false;
+		//return false;
 	}
 
-	private boolean attemptAcidPlacement(AAcid acid, Lattice lat, int middle, int placed_each_side, boolean top_half){
+	private boolean attemptAcidPlacement(AAcid acid, Lattice lat, int placed_each_side, boolean top_half){
 		List<LatticeSite> adjacent_sites;
-		if(top_half){
-			adjacent_sites = lat.getAdjacentSites(lat.getListofBeads().get(middle + placed_each_side - 1).getLocation());
+		//System.out.println("ADDING ACID");
+		//System.out.println(placed_each_side);
+		if(placed_each_side != 0){
+		    if(top_half){
+			adjacent_sites = lat.getAdjacentSites(lat.getListofBeads().get(1+2*(placed_each_side-1)).getLocation());
+		    } else {
+			adjacent_sites = lat.getAdjacentSites(lat.getListofBeads().get(2+2*(placed_each_side-1)).getLocation());
+		    }
 		} else {
-			adjacent_sites = lat.getAdjacentSites(lat.getListofBeads().get(middle - placed_each_side + 1).getLocation());
+		    adjacent_sites = lat.getAdjacentSites(lat.getListofBeads().get(0).getLocation());
 		}
 		
 		List<LatticeSite> good_sites = new ArrayList<LatticeSite>();
