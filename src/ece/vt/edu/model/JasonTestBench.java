@@ -9,6 +9,7 @@ public class JasonTestBench {
 	 */
 	public static void main(String[] args) 
 	{
+		String global3="h,h,h,h,h,h,h,h";
 		String global9a="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
 		String global9b="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
 		String global4="h,h,h,h,p";
@@ -29,7 +30,7 @@ public class JasonTestBench {
 		antManager.startManager();*/
 		
 		Protein protein=new Protein();
-		protein.parseString(global23);
+		protein.parseString(global3);
 
 		int numTrials=100;
 		System.out.println("Beginning trials...");

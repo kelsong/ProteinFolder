@@ -6,6 +6,8 @@ abstract public class ThreadManager {
 		Protein foldee;
 		EnergyRule fitness;
 		
+		int globalOptimal;
+		
 		//build the ability to launch many threads from this manager. 
 		//Not entirely necessary just nice to have it contained.
 		abstract public void startManager();
