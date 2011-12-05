@@ -94,7 +94,14 @@ public class AntColonyManager extends ThreadManager {
 
 				//Calculate average of all the trials
 				statePool.clear();
-				double average=0;
+				
+				for(FolderThread trial : runnables)
+				{
+					State s = trial.returnState();
+					statePool.add(s);
+				}
+				
+				/*double average=0;
 				for(FolderThread trial: runnables)
 				{
 					State s=trial.returnState();
@@ -115,7 +122,7 @@ public class AntColonyManager extends ThreadManager {
 					
 					System.out.println("Score: "+score);
 				}
-				average/=runnables.size();
+				average/=runnables.size();*/
 
 				//add the states that are greater than the average
 				//to the pool of potential next states
@@ -125,10 +132,12 @@ public class AntColonyManager extends ThreadManager {
 					State s = statePool.get(i);
 
 					//if score is less than average fitness
-					if(s.getFitness()<average)
+					if(s.getFitness()<(globalOptimal/2))
 					{
 						statePool.remove(s);
 					}
+					
+					System.out.println("Score: "+s.fitness);
 				}
 			}
 
