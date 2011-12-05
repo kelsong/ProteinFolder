@@ -15,7 +15,7 @@ public class JasonTestBench {
 		protein.parseString(global9a);
 		int globalScore=9;
 		
-		ExhaustiveSearch alg = new ExhaustiveSearch();
+		BestMoveFirst alg = new BestMoveFirst();
 		HHRule rule=new HHRule();
 		
 		AntColonyManager ant = new AntColonyManager(alg, protein, rule);

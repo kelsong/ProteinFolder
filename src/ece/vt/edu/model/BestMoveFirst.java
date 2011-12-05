@@ -24,7 +24,12 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		//go to the end of the chain
 		if(restoredState) 
 		{
-			currentSite=lattice.getLastSite();
+			try {
+				currentSite=lattice.getLastSite();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			startingIndex=0;
 		}
 		else

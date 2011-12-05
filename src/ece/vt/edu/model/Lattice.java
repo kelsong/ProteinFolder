@@ -260,8 +260,13 @@ public class Lattice {
 		return listofBeads.size();
 	}
 	
-	public LatticeSite getLastSite()
+	public LatticeSite getLastSite() throws Exception
 	{
+		if(listofBeads.size()==0)
+		{
+			System.out.println("Attempting to get site when there are no beads...");
+			return null;
+		}
 		return listofBeads.get(listofBeads.size()-1).getLocation();
 	}
 	

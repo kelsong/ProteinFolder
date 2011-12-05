@@ -45,7 +45,7 @@ public class FolderThread implements Runnable {
 		return threadID;
 	}
 	
-	public FolderThread(State init) {
+/*	public FolderThread(State init) {
 		ref = init;
 
 		if (ref != null) {
@@ -53,7 +53,7 @@ public class FolderThread implements Runnable {
 			ref.restoreState(local);
 		}
 	}
-
+*/
 	public void run() {
 		boolean restoredState=false;
 		
@@ -99,6 +99,8 @@ class State {
 	//ArrayList<LatticeBead> savedList = new ArrayList<LatticeBead>();
 	
 	int fitness = 0;
+	
+	int numRestore=1000; //sets a limit on number of beads to restore
 
 	public void recordState(Lattice lattice, int score) {
 		bead_loc.clear();
@@ -125,14 +127,10 @@ class State {
 	}
 
 	public void restoreState(Lattice lattice) {
-		lattice.clearLattice();
 		
-		for (int i = 0; i < bead_loc.size(); i++) {
+		for (int i = 0; i < bead_loc.size() && i< numRestore; i++) {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
-		
-		//System.out.println("Lattice After Restore:");
-		//lattice.printBeads();
 	}
 	
 	public void setFitness(int score){
@@ -151,5 +149,10 @@ class State {
 				+ bead_loc.get(i).getZ() + ")");
 		
 	    }
+	}
+	
+	public void setNumRestore(int num)
+	{
+		numRestore=num;
 	}
 }

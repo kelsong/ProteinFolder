@@ -16,6 +16,15 @@ public class Protein {
 		acids = new LinkedList<AAcid>();
 	}
 	
+	public void popFront()
+	{
+		if(acids.isEmpty())
+		{
+			return;
+		}
+		acids.removeFirst();
+	}
+	
 	public AAcid getAcid(int idx){
 		if(acids != null && acids.size() > idx){
 			return acids.get(idx);
@@ -45,6 +54,17 @@ public class Protein {
 		s+="\n";
 		
 		return s;
+	}
+	
+	public void copyInto(Protein newProtein)
+	{
+		newProtein.acids.clear();
+		
+		for(AAcid acid : acids)
+		{
+			newProtein.addAcid(acid);
+		}
+		
 	}
 	
 	//need this function because I can't get readFile to work
