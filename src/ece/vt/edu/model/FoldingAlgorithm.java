@@ -5,4 +5,5 @@ public abstract class FoldingAlgorithm {
 	
 	abstract boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState);
 
+	int finalScore=-1;
 }

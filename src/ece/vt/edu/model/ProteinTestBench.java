@@ -24,8 +24,8 @@ public class ProteinTestBench {
 
 	HHRule rule = new HHRule();
 
-	// RandomWalk alg=new RandomWalk();
-	 BestMoveFirst alg = new BestMoveFirst();
+	 RandomWalk alg=new RandomWalk();
+	// BestMoveFirst alg = new BestMoveFirst();
 
 	ThreadManager manage = new RandomThreadManager(alg, protein, rule);
 	//ThreadManager manage = new ChainGrowthThreadManager(protein, rule);

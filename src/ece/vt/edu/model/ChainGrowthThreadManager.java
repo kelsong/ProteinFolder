@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ChainGrowthThreadManager extends ThreadManager {
 
-    private static final int NUM_THREADS = 2;
+    private static int NUM_THREADS = 2;
 
     private ArrayList<State> good_states = new ArrayList<State>();
     private ArrayList<FolderThread> runnables = new ArrayList<FolderThread>();
@@ -122,5 +122,11 @@ public class ChainGrowthThreadManager extends ThreadManager {
 		globalOptimal=score;
 		
 	}
+
+		@Override
+		public void setNumThreads(int numT) {
+			NUM_THREADS=numT;
+			
+		}
 
 }

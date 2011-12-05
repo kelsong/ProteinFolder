@@ -7,10 +7,13 @@ abstract public class ThreadManager {
 		EnergyRule fitness;
 		
 		int globalOptimal;
+		int numThreads;
 		
 		//build the ability to launch many threads from this manager. 
 		//Not entirely necessary just nice to have it contained.
 		abstract public void startManager();
 		
 		abstract public void setGlobalScore(int score);
+		
+		abstract public void setNumThreads(int numT);
 }

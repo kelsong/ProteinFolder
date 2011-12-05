@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class BestMoveFirst extends FoldingAlgorithm {
 
-	int finalScore=-1;
+	//int finalScore=-1;
 	
 	@Override
 	boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState) 

@@ -5,80 +5,91 @@ import java.util.ArrayList;
 public class JasonTestBench {
 	
 
+	static String global3="h,h,h,h,h,h,h,h"; //optimal energy 3
+	static String global9a="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
+	static String global9b="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
+	static String global8="p,p,h,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h"; //optimal energy 8
+	static String global14="P,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,P,P,H,H,P,P,P,P,H,H,P,P,H,P,P"; //optimal energy 14
+	static String global23="P,P,H,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,H,H,H,P,P,P,P,P,P,H,H,P,P,H,H,P,P,H,H,P,P,H,P,P,H,H,H,H,H"; //optimal energy 23
+	
+	static FoldingAlgorithm algorithm=null;
+	static EnergyRule erule=null;
+	static DataSet data=null;
+	static ThreadManager manager=null;
+	
 	public static void main(String[] args) 
-	{
-		//args format
-		//java proteintestbench <alg> <energy rule> <dataset> #<num threads>
-		//Algorithms:
-		//Single Threaded Algorithms
-		//BestMove => BestMoveFirst
-		//Random => RandomWalk
-		//Exhaustive => Exhaustive Search
-		//Multithreaded Algorithms
-		//BestAntColony => BestMoveFirst AntColony
-		//RandomAnyColony => Randomwalk AntColony
+	{	
 		
-		//Energy Rules:
-		//HHRule => H-H Bond rule
+	
 		
-		//DataSet
-		//global3="h,h,h,h,h,h,h,h"; //optimal energy 3
-		//global9a="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
-		//global9b="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
-		//global8="p,p,h,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h"; //optimal energy 8
-		//global14="P,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,P,P,H,H,P,P,P,P,H,H,P,P,H,P,P"; //optimal energy 14
-		//global23="P,P,H,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,H,H,H,P,P,P,P,P,P,H,H,P,P,H,H,P,P,H,H,P,P,H,P,P,H,H,H,H,H"; //optimal energy 23
+		boolean parseSuccess=parseArguments(args);
 		
-		//parse commandline arugments
-		if(args.length<3 || args.length>4)
+		int bestScore=-1;
+		State bestState=null;
+		long TIME_LIMIT=120000;
+		
+		if(manager==null) //single threaded application
 		{
-			System.out.println("Invalid command line arguments...\nExiting...");
-			//return;
+			System.out.println("Running Single Threaded Application for "+TIME_LIMIT +" ms");
+			
+			long startTime=System.currentTimeMillis();
+			boolean globalReached=false;
+			
+			for(int trial=0;(System.currentTimeMillis()-startTime)<=TIME_LIMIT&&!globalReached;trial++)
+			{	
+				Lattice twoD=new Lattice(true,500,true);
+				
+				boolean success=algorithm.fold(data.protein, erule, twoD, false);
+				
+				if(success)
+				{
+					int finalScore=algorithm.finalScore;
+					
+					if(finalScore>bestScore)
+					{
+						bestScore=finalScore;
+					}
+					
+					if(finalScore==data.globalOptimum)
+					{
+						globalReached=true;
+					}
+				}
+			}
+			long totalTime=System.currentTimeMillis()-startTime;
+			
+			System.out.println("Trial complete");
+			
+			if(globalReached)
+			{
+				System.out.println("Global Reach in "+totalTime+"ms");
+			}
+			else
+			{
+				System.out.println("Global not reached not in "+TIME_LIMIT+"ms");
+				System.out.println("Best Score: "+bestScore);
+			}
+		}
+		else //multithreaded application
+		{
+			
 		}
 		
-		//load up all the datasets. This really should be done from a file but
-		//we don't have time for that
-		
-		String global3="h,h,h,h,h,h,h,h"; //optimal energy 3
-		String global9a="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
-		String global9b="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
-		String global8="p,p,h,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h"; //optimal energy 8
-		String global14="P,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,P,P,H,H,P,P,P,P,H,H,P,P,H,P,P"; //optimal energy 14
-		String global23="P,P,H,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,H,H,H,P,P,P,P,P,P,H,H,P,P,H,H,P,P,H,H,P,P,H,P,P,H,H,H,H,H"; //optimal energy 23
-		
-		ArrayList<DataSet> datasets = new ArrayList<DataSet>();
-		datasets.add(new DataSet(global3,3));
-		datasets.add(new DataSet(global9a,9));
-		datasets.add(new DataSet(global9b,9));
-		datasets.add(new DataSet(global8,8));
-		datasets.add(new DataSet(global14,14));
-		datasets.add(new DataSet(global23,23));
-		
-		FoldingAlgorithm algorithm=null;
-		EnergyRule erule=null;
-		DataSet data=null;
-
-		/*algorithm=lookupAlgorithm(args[0]);
-		erule=lookupEnergyRule(args[1]);
-		data=lookupDataSet(args[2]);*/
-		
-		int numThreads=1;
-		if(args.length==4)
-		{
-			numThreads=Integer.parseInt(args[3]);
-		}
-		
-		
-		Protein protein=new Protein();
+		/*Protein protein=new Protein();
 		protein.parseString(global9a);
 		int globalScore=9;
 		
-		BestMoveFirst alg = new BestMoveFirst();
+		RandomThreadManager rand=new RandomThreadManager(new RandomWalk(), protein, new HHRule());
+		rand.setGlobalScore(globalScore);
+		rand.setNumThreads(10);
+		rand.startManager();*/
+		
+		/*BestMoveFirst alg = new BestMoveFirst();
 		HHRule rule=new HHRule();
 		
 		AntColonyManager ant = new AntColonyManager(alg, protein, rule);
 		ant.setGlobalScore(globalScore);
-		ant.startManager();
+		ant.startManager();*/
 
 		/*int bestScore=-1;
 		boolean globalReached=false;
@@ -92,7 +103,7 @@ public class JasonTestBench {
 
 			HHRule rule=new HHRule();
 
-			BestMoveFirst alg=new BestMoveFirst();
+			BestMoveFirst alg=new BestMoveFirs0t();
 			//RandomWalk alg=new RandomWalk();
 			
 			boolean success=alg.fold(protein, rule, twoD,false);
@@ -127,40 +138,106 @@ public class JasonTestBench {
 		}
 */	}
 
-	private static DataSet lookupDataSet(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private static EnergyRule lookupEnergyRule(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private static FoldingAlgorithm lookupAlgorithm(String sAlgorithm) 
+	private static boolean parseArguments(String[] args) 
 	{
+		//args format
+		//java proteintestbench <alg> <energy rule> <dataset> #<num threads>
 		//Algorithms:
 		//Single Threaded Algorithms
 		//BestMove => BestMoveFirst
 		//Random => RandomWalk
 		//Exhaustive => Exhaustive Search
 		//Multithreaded Algorithms
-		//BestAntColony => BestMoveFirst AntColony
-		//RandomAnyColony => Randomwalk AntColony
+		//AntColony => BestMoveFirst AntColony
+		//MultiRandom => Randomwalk AntColony
 		
-		if(sAlgorithm=="BestMove")
+		//Energy Rules:
+		//HHRule => H-H Bond rule
+		
+		//DataSet
+		//global3="h,h,h,h,h,h,h,h"; //optimal energy 3
+		//global9a="h,p,h,p,p,h,h,p,h,p,p,h,p,h,h,p,p,h,p,h"; //optimal energy 9
+		//global9b="h,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,p,p,h,h"; //optimal energy 9
+		//global8="p,p,h,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h,p,p,p,p,h,h"; //optimal energy 8
+		//global14="P,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,P,P,H,H,P,P,P,P,H,H,P,P,H,P,P"; //optimal energy 14
+		//global23="P,P,H,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,H,H,H,P,P,P,P,P,P,H,H,P,P,H,H,P,P,H,H,P,P,H,P,P,H,H,H,H,H"; //optimal energy 23	
+		
+		if(args.length<3)
 		{
-			return new BestMoveFirst();
+			return false;
 		}
-		else if(sAlgorithm=="Random")
+		
+		//parse protein/dataset
+		String sDataSet=args[2];
+		if(sDataSet.equals("global3"))
 		{
-			return new RandomWalk();
+			data=new DataSet(global3, 3);
 		}
-		else if(sAlgorithm=="Exhaustive")
+		else if(sDataSet.equals("global9a"))
 		{
-			return new ExhaustiveSearch();
+			data=new DataSet(global9a,9);
 		}
-		return null;
+		else if(sDataSet.equals("global9b"))
+		{
+			data=new DataSet(global9b,9);
+		}
+		else if(sDataSet.equals("global8"))
+		{
+			data=new DataSet(global8,8);
+		}
+		else if(sDataSet.equals("global14"))
+		{
+			data=new DataSet(global14,14);
+		}
+		else if(sDataSet.equals("global23"))
+		{
+			data=new DataSet(global23,23);
+		}
+		
+		//parse rule
+		String sRule=args[1];
+		if(sRule.equals("HHRule"))
+		{
+			erule=new HHRule();
+		}
+		
+		//parse number of threads
+		int numThreads=1;
+		if(args.length==4)
+		{
+			numThreads=Integer.parseInt(args[3]);
+		}
+		
+		//attempt to parse algorithm
+		String sAlgorithm=args[0];
+		if(sAlgorithm.equals("BestMove"))
+		{
+			algorithm=new BestMoveFirst();
+		}
+		else if(sAlgorithm.equals("Random"))
+		{
+			algorithm=new RandomWalk();
+		}
+		else if(sAlgorithm.equals("Exhaustive"))
+		{
+			algorithm=new ExhaustiveSearch();
+		}
+		else if(sAlgorithm.equals("AntColony"))
+		{
+			algorithm=new BestMoveFirst();
+			manager=new AntColonyManager(algorithm, data.protein, erule);
+			manager.setGlobalScore(data.globalOptimum);
+			manager.setNumThreads(numThreads);
+		}
+		else if(sAlgorithm.equals("MultiRandom"))
+		{
+			algorithm=new RandomWalk();
+			manager=new RandomThreadManager(algorithm,data.protein,erule);
+			manager.setGlobalScore(data.globalOptimum);
+			manager.setNumThreads(numThreads);
+		}
+		
+		
+		return true;
 	}
-
 }

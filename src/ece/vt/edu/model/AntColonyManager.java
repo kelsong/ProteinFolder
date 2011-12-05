@@ -22,12 +22,13 @@ public class AntColonyManager extends ThreadManager {
 		algorithm=alg;
 		protein=protein_;
 		rule=rule_;
+		numThreads=1;
 	}
 
 	@Override
 	public void startManager() 
 	{
-		int NUM_THREADS=4;
+		int NUM_THREADS=numThreads;
 
 		System.out.println("Starting AntColony with "+NUM_THREADS+" threads");
 		
@@ -204,6 +205,12 @@ public class AntColonyManager extends ThreadManager {
 	{
 		globalOptimal=score;
 
+	}
+
+	@Override
+	public void setNumThreads(int numT) {
+		numThreads=numT;
+		
 	}
 
 }
