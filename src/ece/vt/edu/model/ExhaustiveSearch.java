@@ -35,12 +35,17 @@ public class ExhaustiveSearch extends FoldingAlgorithm{
 
 		return recursiveSearch(1, site);
 	}
+	
+	public String toString()
+	{
+		return "Exhaustive";
+	}
 
 	public int recursiveSearch(int index, LatticeSite prev) {
 		AAcid amino;
-		if (index <= 3) {
+		/*if (index <= 3) {
 			System.out.println("Placing Acid #" + index + " ");
-		}
+		}*/
 		if (index < protein.getLength()) {
 			amino = protein.getAcid(index);
 		} else {
@@ -97,6 +102,7 @@ public class ExhaustiveSearch extends FoldingAlgorithm{
 		rule=energy_;
 		
 		int bestScore=search();
+		finalScore=bestScore;
 		
 		return true;
 	}

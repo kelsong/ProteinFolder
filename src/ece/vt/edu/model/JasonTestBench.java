@@ -37,6 +37,11 @@ public class JasonTestBench {
 		State bestState=null;
 		long TIME_LIMIT=120000;
 		
+		if(algorithm.toString().equals("Exhaustive"))
+		{
+			TIME_LIMIT=3600000; //set timeout to one hour
+		}
+		
 		if(manager==null) //single threaded application
 		{
 			System.out.println("Running Single Threaded Application for "+TIME_LIMIT +" ms");

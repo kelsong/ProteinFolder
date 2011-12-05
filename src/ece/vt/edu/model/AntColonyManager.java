@@ -154,7 +154,7 @@ public class AntColonyManager extends ThreadManager {
 						globalFound=true;
 					}
 					
-					System.out.println("Score: "+s.getFitness());
+					//System.out.println("Score: "+s.getFitness());
 				}
 
 				//add the states that are greater than the average

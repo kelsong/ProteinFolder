@@ -50,7 +50,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		{
 			if(currentSite==null)
 			{
-				System.out.println("Couldn't place bead, something bad happened...");
+				//System.out.println("Couldn't place bead, something bad happened...");
 				return false;
 			}
 			
@@ -111,7 +111,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 				//remove latest bead
 				if(!lattice.removeLastBead())
 				{
-					System.out.println("Couldn't remove bead! Something bad happened...");
+					//System.out.println("Couldn't remove bead! Something bad happened...");
 					return false;
 				}
 				
@@ -137,7 +137,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			
 			if(bead==null)
 			{
-				System.out.println("Something really terrible happened...");
+				//System.out.println("Something really terrible happened...");
 			}
 			
 			currentSite=sites.get(indexOfBestScore);

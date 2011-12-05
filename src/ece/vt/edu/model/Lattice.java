@@ -264,7 +264,7 @@ public class Lattice {
 	{
 		if(listofBeads.size()==0)
 		{
-			System.out.println("Attempting to get site when there are no beads...");
+			//System.out.println("Attempting to get site when there are no beads...");
 			return null;
 		}
 		return listofBeads.get(listofBeads.size()-1).getLocation();
