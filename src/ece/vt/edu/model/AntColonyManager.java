@@ -28,6 +28,7 @@ public class AntColonyManager extends ThreadManager {
 		long startTime=System.currentTimeMillis();
 		long TIME_LIMIT=120000;
 		boolean globalFound=false;
+		int bestScore=-1;
 		
 		int proteinLength=protein.getLength();
 		
@@ -40,7 +41,7 @@ public class AntColonyManager extends ThreadManager {
 			globalCopy.copyInto(protein);
 			
 			//perform Ant Colony optimization
-			for(int index=0;index<proteinLength;index++)
+			for(int index=0;index<proteinLength && !globalFound ;index++)
 			{	
 
 				runnables.clear();
@@ -70,8 +71,11 @@ public class AntColonyManager extends ThreadManager {
 						//pop off the head of the protein, we've already placed it
 						protein.popFront();
 					}
+					
+					FoldingAlgorithm newAlg = new BestMoveFirst();
+					EnergyRule newHHrule =  new HHRule();
 
-					FolderThread fThread=new FolderThread(state, algorithm, testChain, rule);
+					FolderThread fThread=new FolderThread(state, newAlg, testChain, newHHrule);
 					Thread thread=new Thread(fThread);
 
 					runnables.add(fThread);
@@ -101,8 +105,15 @@ public class AntColonyManager extends ThreadManager {
 						globalFound=true;
 					}
 					
+					if(score>=bestScore)
+					{
+						bestScore=score;
+					}
+					
 					average+=score;
 					statePool.add(s);
+					
+					System.out.println("Score: "+score);
 				}
 				average/=runnables.size();
 
@@ -129,12 +140,20 @@ public class AntColonyManager extends ThreadManager {
 				int score=state.getFitness();
 
 				runningTotal+=score;
-				System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
+				//System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
 				//thread.local.printBeads();
 			}
 			
-			System.out.println("Ant Colony Avg: "+runningTotal/NUM_THREADS);
+			//System.out.println("Ant Colony Avg: "+runningTotal/NUM_THREADS);
 
+		}
+		if(globalFound)
+		{
+			System.out.println("Global optimal found in "+(System.currentTimeMillis()-startTime)+" ms");
+		}
+		else
+		{
+			System.out.println("Global optimal not found. Best score: "+bestScore);
 		}
 	}
 

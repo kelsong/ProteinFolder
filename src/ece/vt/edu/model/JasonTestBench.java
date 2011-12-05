@@ -12,8 +12,8 @@ public class JasonTestBench {
 		String global23="P,P,H,P,P,H,H,P,P,H,H,P,P,P,P,P,H,H,H,H,H,H,H,H,H,H,P,P,P,P,P,P,H,H,P,P,H,H,P,P,H,H,P,P,H,P,P,H,H,H,H,H"; //optimal energy 23
 		
 		Protein protein=new Protein();
-		protein.parseString(global9a);
-		int globalScore=9;
+		protein.parseString(global3);
+		int globalScore=3;
 		
 		BestMoveFirst alg = new BestMoveFirst();
 		HHRule rule=new HHRule();

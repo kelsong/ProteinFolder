@@ -51,6 +51,7 @@ public class BestMoveFirst extends FoldingAlgorithm {
 			if(currentSite==null)
 			{
 				System.out.println("Couldn't place bead, something bad happened...");
+				return false;
 			}
 			
 			//get next bead/acid in the chain

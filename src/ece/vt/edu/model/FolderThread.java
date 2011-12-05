@@ -128,9 +128,13 @@ class State {
 
 	public void restoreState(Lattice lattice) {
 		
+		
 		for (int i = 0; i < bead_loc.size() && i< numRestore; i++) {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));
 		}
+		
+		/*System.out.println("Restored state: ");
+		lattice.printBeads();*/
 	}
 	
 	public void setFitness(int score){
