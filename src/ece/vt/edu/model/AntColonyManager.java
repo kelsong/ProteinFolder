@@ -28,30 +28,47 @@ public class AntColonyManager extends ThreadManager {
 		long startTime=System.currentTimeMillis();
 		long TIME_LIMIT=120000;
 		boolean globalFound=false;
+		
+		int proteinLength=protein.getLength();
+		
+		//make a deep copy of the protein so we can chop up the other one
+		Protein globalCopy = new Protein();
+		protein.copyInto(globalCopy);
 
 		while(!globalFound && (System.currentTimeMillis()-startTime)<TIME_LIMIT)
 		{
-			for(int index=0;index<protein.getLength();index++)
+			globalCopy.copyInto(protein);
+			
+			//perform Ant Colony optimization
+			for(int index=0;index<proteinLength;index++)
 			{	
 
 				runnables.clear();
 				threads.clear();
 
 				//test chain to be used in this iteration
-				Protein testChain = new Protein();
-
+				//Protein testChain = new Protein();
+				Protein testChain = protein;
+				
 				//pull acids from the original chain
-				testChain.addAcid(protein.getAcid(index));
+				//testChain.addAcid(protein.getAcid(index));
 
 				//stage and create all threads
 				for(int i=0;i<NUM_THREADS;i++)
 				{
 					State state=null;
 
-					if(statePool.size()>0)
+					if(statePool.size()>0 && index>0)
 					{
+						//pick a random state
 						int randomIndex=new Random().nextInt(statePool.size());
 						state=statePool.get(randomIndex);
+						
+						//only restore the nth beads from that state
+						state.setNumRestore(index);
+						
+						//pop off the head of the protein, we've already placed it
+						protein.popFront();
 					}
 
 					FolderThread fThread=new FolderThread(state, algorithm, testChain, rule);
@@ -79,6 +96,11 @@ public class AntColonyManager extends ThreadManager {
 					State s=trial.returnState();
 					int score=s.getFitness();
 
+					if(score>=globalOptimal)
+					{
+						globalFound=true;
+					}
+					
 					average+=score;
 					statePool.add(s);
 				}
@@ -107,7 +129,7 @@ public class AntColonyManager extends ThreadManager {
 				int score=state.getFitness();
 
 				runningTotal+=score;
-				//System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
+				System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
 				//thread.local.printBeads();
 			}
 			
