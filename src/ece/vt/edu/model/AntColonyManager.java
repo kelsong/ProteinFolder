@@ -23,95 +23,103 @@ public class AntColonyManager extends ThreadManager {
 	@Override
 	public void startManager() 
 	{
-		int NUM_THREADS=100;
+		int NUM_THREADS=1;
 
-		for(int iter=0;iter<protein.getLength();iter++)
-		{	
-			System.out.println("\nIteration: "+(iter+1));
-			
-			runnables.clear();
-			threads.clear();
-			
-			//test chain to be used in this iteration
-			Protein testChain = new Protein();
-			
-			//pull acids from the original chain
-			testChain.addAcid(protein.getAcid(iter));
-			
-			/*for(int i=0;i<iter+1;i++)
-			{
-				testChain.addAcid(protein.getAcid(i));
-			}*/
+		long startTime=System.currentTimeMillis();
+		long TIME_LIMIT=120000;
+		boolean globalFound=false;
 
-			//stage and create all threads
-			for(int i=0;i<NUM_THREADS;i++)
-			{
-				State state=null;
-				
-				if(statePool.size()>0)
-				{
-					int randomIndex=new Random().nextInt(statePool.size());
-					state=statePool.get(randomIndex);
-				}
-				
-				FolderThread fThread=new FolderThread(state, algorithm, testChain, rule);
-				Thread thread=new Thread(fThread);
-
-				runnables.add(fThread);
-				threads.add(thread);
-			}
-
-
-			//start all the threads
-			for(Thread t: threads)
-				t.start();
-
-			//wait for all the threads
-			waitForThreads();
-
-			//Calculate average of all the trials
-			statePool.clear();
-			double average=0;
-			for(FolderThread trial: runnables)
-			{
-				State s=trial.returnState();
-				int score=s.getFitness();
-
-				average+=score;
-				statePool.add(s);
-			}
-			average/=runnables.size();
-
-			//add the states that are greater than the average
-			//to the pool of potential next states
-			//for(State s: statePool)
-			for(int i=0;i<statePool.size();i++)
-			{
-				State s = statePool.get(i);
-				
-				//if score is less than average fitness
-				if(s.getFitness()<average)
-				{
-					statePool.remove(s);
-				}
-			}
-		}
-		
-		//print out final scores
-		for(FolderThread thread : runnables)
+		while(!globalFound && (System.currentTimeMillis()-startTime)<TIME_LIMIT)
 		{
-			State state=thread.returnState();
-			int score=state.getFitness();
+			for(int index=0;index<protein.getLength();index++)
+			{	
+
+				runnables.clear();
+				threads.clear();
+
+				//test chain to be used in this iteration
+				Protein testChain = new Protein();
+
+				//pull acids from the original chain
+				testChain.addAcid(protein.getAcid(index));
+
+				//stage and create all threads
+				for(int i=0;i<NUM_THREADS;i++)
+				{
+					State state=null;
+
+					if(statePool.size()>0)
+					{
+						int randomIndex=new Random().nextInt(statePool.size());
+						state=statePool.get(randomIndex);
+					}
+
+					FolderThread fThread=new FolderThread(state, algorithm, testChain, rule);
+					Thread thread=new Thread(fThread);
+
+					runnables.add(fThread);
+					threads.add(thread);
+				}
+
+
+				//start all the threads
+				for(Thread t: threads)
+				{
+					t.start();
+				}
+				
+				//wait for all the threads
+				waitForThreads();
+
+				//Calculate average of all the trials
+				statePool.clear();
+				double average=0;
+				for(FolderThread trial: runnables)
+				{
+					State s=trial.returnState();
+					int score=s.getFitness();
+
+					average+=score;
+					statePool.add(s);
+				}
+				average/=runnables.size();
+
+				//add the states that are greater than the average
+				//to the pool of potential next states
+				//for(State s: statePool)
+				for(int i=0;i<statePool.size();i++)
+				{
+					State s = statePool.get(i);
+
+					//if score is less than average fitness
+					if(s.getFitness()<average)
+					{
+						statePool.remove(s);
+					}
+				}
+			}
+
+			//print out final scores
+			int runningTotal=0;
+			for(FolderThread thread : runnables)
+			{
+				State state=thread.returnState();
+				int score=state.getFitness();
+
+				runningTotal+=score;
+				//System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
+				//thread.local.printBeads();
+			}
 			
-			System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
-			//thread.local.printBeads();
+			System.out.println("Ant Colony Avg: "+runningTotal/NUM_THREADS);
+
 		}
 	}
 
 	private void waitForThreads()
 	{
 		//wait until all threads are dead
-		
+
 		for(Thread t : threads)
 		{
 			try {
@@ -121,7 +129,7 @@ public class AntColonyManager extends ThreadManager {
 				e.printStackTrace();
 			}
 		}
-		
+
 		/*boolean allThreadsDead = false;
 		while (!allThreadsDead) {
 			int counter = 0;
@@ -141,7 +149,7 @@ public class AntColonyManager extends ThreadManager {
 	public void setGlobalScore(int score) 
 	{
 		globalOptimal=score;
-		
+
 	}
 
 }

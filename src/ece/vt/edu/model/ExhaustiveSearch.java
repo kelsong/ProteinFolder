@@ -27,8 +27,8 @@ public class ExhaustiveSearch {
     
     public int recursiveSearch(int index, LatticeSite prev){
 	AAcid amino = protein.getAcid(index);
-	Lattice get
-	placeAcid()
+	//Lattice get
+	//placeAcid()
 	return 0;
     }
 }

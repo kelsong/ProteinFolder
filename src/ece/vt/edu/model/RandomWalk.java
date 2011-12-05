@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomWalk extends FoldingAlgorithm {
+
+	int finalScore=-1;
 	// No state saving for now
 	// start with a truly random walk
 	@Override boolean fold(Protein protein, EnergyRule energy, Lattice lattice, boolean restoredState) {
@@ -50,6 +52,7 @@ public class RandomWalk extends FoldingAlgorithm {
 		    	//lattice.printBeads();
 		}
 		
+		finalScore=energy.scoreLattice(lattice);
 		//System.out.println("Final Score: "+energy.scoreLattice(lattice));
 		
 		return true;

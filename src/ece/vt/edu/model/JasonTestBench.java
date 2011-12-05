@@ -14,15 +14,21 @@ public class JasonTestBench {
 		Protein protein=new Protein();
 		protein.parseString(global9a);
 		int globalScore=9;
+		
+		BestMoveFirst alg = new BestMoveFirst();
+		HHRule rule=new HHRule();
+		
+		AntColonyManager ant = new AntColonyManager(alg, protein, rule);
+		ant.setGlobalScore(globalScore);
+		ant.startManager();
 
-		int bestScore=-1;
-		int numTrials=1000;
+		/*int bestScore=-1;
 		boolean globalReached=false;
 		System.out.println("Beginning trials...");
 		
 		long startTime=System.currentTimeMillis();
-		
-		for(int trial=0;trial<numTrials&&!globalReached;trial++)
+		long TIME_LIMIT = 120000; 
+		for(int trial=0;(System.currentTimeMillis()-startTime)<=TIME_LIMIT&&!globalReached;trial++)
 		{	
 			Lattice twoD=new Lattice(true,500,true);
 
@@ -58,8 +64,9 @@ public class JasonTestBench {
 		}
 		else
 		{
-			System.out.println("Global not reached not in "+totalTime+"ms");
+			System.out.println("Global not reached not in "+TIME_LIMIT+"ms");
+			System.out.println("Best Score: "+bestScore);
 		}
-	}
+*/	}
 
 }
