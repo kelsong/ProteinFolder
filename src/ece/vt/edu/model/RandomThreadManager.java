@@ -50,4 +50,10 @@ public class RandomThreadManager extends ThreadManager{
 			System.out.println("Final Score: " + st.getFitness());
 		    }
 		}
+
+		@Override
+		public void setGlobalScore(int score) {
+			globalOptimal=score;
+			
+		}
 }

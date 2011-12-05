@@ -117,4 +117,10 @@ public class ChainGrowthThreadManager extends ThreadManager {
 	}
     }
 
+	@Override
+	public void setGlobalScore(int score) {
+		globalOptimal=score;
+		
+	}
+
 }

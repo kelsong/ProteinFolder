@@ -11,8 +11,8 @@ public class HHRule extends EnergyRule{
 	{
 
 		//hash set to keep track of the bonds we've counted
-		//HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
-		BondCounter bondSet = new BondCounter();
+		HashSet<AcidBond> bondSet=new HashSet<AcidBond>();
+		//BondCounter bondSet = new BondCounter();
 
 		//count the number of bond
 		int bondCount=0;
