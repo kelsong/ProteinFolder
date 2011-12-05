@@ -142,4 +142,14 @@ class State {
 	public int getFitness(){
 	    return fitness;
 	}
+	
+	public void printState(){
+	    for(int i = 0; i<bead_loc.size(); i++){
+		System.out.println(acids.get(i).toString() + "@" + "(" 
+				+ bead_loc.get(i).getX() + "," 
+				+ bead_loc.get(i).getY() + ","
+				+ bead_loc.get(i).getZ() + ")");
+		
+	    }
+	}
 }
