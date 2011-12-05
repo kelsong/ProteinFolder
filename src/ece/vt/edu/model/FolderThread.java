@@ -25,6 +25,12 @@ public class FolderThread implements Runnable {
 	int threadID;
 	
 	public FolderThread(State init, FoldingAlgorithm alg, Protein prot, EnergyRule rule) {
+		if(alg==null||prot==null||rule==null)
+		{
+			System.out.println("Null Folder Thread parameter. Dying...");
+			return;
+		}
+		
 		ref = init;
 		local = new Lattice(true, 100, true);
 		
@@ -54,8 +60,16 @@ public class FolderThread implements Runnable {
 		}
 	}
 */
-	public void run() {
+	public void run() 
+	{
 		boolean restoredState=false;
+		
+		
+		if(folder==null||protein==null||rules==null)
+		{
+			System.out.println("Null Folder Thread parameter. Dying...");
+			return;
+		}
 		
 		if (ref == null) 
 		{
@@ -125,9 +139,34 @@ class State {
 		
 		
 	}
+	
+	public void CopyInto(State newState)
+	{
+		newState.fitness=this.fitness;
+		newState.numRestore=this.numRestore;
+		
+		if(bead_loc.size()!=acids.size())
+		{
+			System.out.println("Bad restored state. Exiting.");
+			return;
+		}
+		
+		for(int i=0;i<bead_loc.size()&&i<acids.size();i++)
+		{
+			newState.acids.add(this.acids.get(i));
+			newState.bead_loc.add(this.bead_loc.get(i));
+		}
+		
+		
+	}
 
 	public void restoreState(Lattice lattice) {
 		
+		if(bead_loc.size()!=acids.size())
+		{
+			System.out.println("Bad restored state. Exiting.");
+			return;
+		}
 		
 		for (int i = 0; i < bead_loc.size() && i< numRestore; i++) {
 			lattice.placeAcid(acids.get(i), lattice.getLatticeSite(bead_loc.get(i)));

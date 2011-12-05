@@ -3,6 +3,8 @@ package ece.vt.edu.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.plaf.SliderUI;
+
 public class AntColonyManager extends ThreadManager {
 
 	private ArrayList<State> statePool = new ArrayList<State>();
@@ -12,6 +14,8 @@ public class AntColonyManager extends ThreadManager {
 	FoldingAlgorithm algorithm;
 	Protein protein;
 	EnergyRule rule;
+	
+	State bestState=null;
 
 	public AntColonyManager(FoldingAlgorithm alg, Protein protein_, EnergyRule rule_)
 	{
@@ -23,8 +27,10 @@ public class AntColonyManager extends ThreadManager {
 	@Override
 	public void startManager() 
 	{
-		int NUM_THREADS=1;
+		int NUM_THREADS=4;
 
+		System.out.println("Starting AntColony with "+NUM_THREADS+" threads");
+		
 		long startTime=System.currentTimeMillis();
 		long TIME_LIMIT=120000;
 		boolean globalFound=false;
@@ -61,9 +67,11 @@ public class AntColonyManager extends ThreadManager {
 
 					if(statePool.size()>0 && index>0)
 					{
+						state=new State();
+						
 						//pick a random state
 						int randomIndex=new Random().nextInt(statePool.size());
-						state=statePool.get(randomIndex);
+						statePool.get(randomIndex).CopyInto(state);
 						
 						//only restore the nth beads from that state
 						state.setNumRestore(index);
@@ -72,10 +80,34 @@ public class AntColonyManager extends ThreadManager {
 						protein.popFront();
 					}
 					
-					FoldingAlgorithm newAlg = new BestMoveFirst();
-					EnergyRule newHHrule =  new HHRule();
+					//FoldingAlgorithm newAlg = new BestMoveFirst();
+					FoldingAlgorithm newAlg=null;
+					try {
+						newAlg = algorithm.getClass().newInstance();
+					} catch (InstantiationException e) {
+					
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						
+						e.printStackTrace();
+					}
+					
+					//EnergyRule newHHrule =  new HHRule();
+					EnergyRule newRule=null;
+					try {
+						newRule = rule.getClass().newInstance();
+					} catch (InstantiationException e) {
+						
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						
+						e.printStackTrace();
+					}
+					
+					Protein newProtein=new Protein();
+					testChain.copyInto(newProtein);
 
-					FolderThread fThread=new FolderThread(state, newAlg, testChain, newHHrule);
+					FolderThread fThread=new FolderThread(state, newAlg, newProtein, newRule);
 					Thread thread=new Thread(fThread);
 
 					runnables.add(fThread);
@@ -100,29 +132,6 @@ public class AntColonyManager extends ThreadManager {
 					State s = trial.returnState();
 					statePool.add(s);
 				}
-				
-				/*double average=0;
-				for(FolderThread trial: runnables)
-				{
-					State s=trial.returnState();
-					int score=s.getFitness();
-
-					if(score>=globalOptimal)
-					{
-						globalFound=true;
-					}
-					
-					if(score>=bestScore)
-					{
-						bestScore=score;
-					}
-					
-					average+=score;
-					statePool.add(s);
-					
-					System.out.println("Score: "+score);
-				}
-				average/=runnables.size();*/
 
 				//add the states that are greater than the average
 				//to the pool of potential next states
@@ -131,8 +140,20 @@ public class AntColonyManager extends ThreadManager {
 				{
 					State s = statePool.get(i);
 
+					//update the bestscore
+					if(s.getFitness()>bestScore)
+					{
+						bestScore=s.getFitness();
+						bestState=s;
+					}
+					
+					if(s.getFitness()>=globalOptimal)
+					{
+						globalFound=true;
+					}
+					
 					//if score is less than average fitness
-					if(s.getFitness()<(globalOptimal/2))
+					if(s.getFitness()<(globalOptimal/5))
 					{
 						statePool.remove(s);
 					}
@@ -141,29 +162,18 @@ public class AntColonyManager extends ThreadManager {
 				}
 			}
 
-			//print out final scores
-			int runningTotal=0;
-			for(FolderThread thread : runnables)
-			{
-				State state=thread.returnState();
-				int score=state.getFitness();
-
-				runningTotal+=score;
-				//System.out.println("Thread: "+thread.getThreadID()+" Final Score: "+score);
-				//thread.local.printBeads();
-			}
-			
-			//System.out.println("Ant Colony Avg: "+runningTotal/NUM_THREADS);
-
 		}
+		long endTime=System.currentTimeMillis();
+		
 		if(globalFound)
 		{
-			System.out.println("Global optimal found in "+(System.currentTimeMillis()-startTime)+" ms");
+			System.out.println("Global optimal found in "+(endTime-startTime)+" ms");
 		}
 		else
 		{
 			System.out.println("Global optimal not found. Best score: "+bestScore);
 		}
+		bestState.printState();
 	}
 
 	private void waitForThreads()
@@ -179,20 +189,6 @@ public class AntColonyManager extends ThreadManager {
 				e.printStackTrace();
 			}
 		}
-
-		/*boolean allThreadsDead = false;
-		while (!allThreadsDead) {
-			int counter = 0;
-			for (int i = 0; i < threads.size(); i++) {
-				if (!threads.get(i).isAlive()) {
-					counter++;
-				}
-			}
-
-			if (counter == threads.size()) {
-				allThreadsDead = true;
-			}
-		}*/
 	}
 
 	@Override

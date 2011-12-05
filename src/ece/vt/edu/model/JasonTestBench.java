@@ -33,7 +33,7 @@ public class JasonTestBench {
 		if(args.length<3 || args.length>4)
 		{
 			System.out.println("Invalid command line arguments...\nExiting...");
-			return;
+			//return;
 		}
 		
 		//load up all the datasets. This really should be done from a file but
@@ -58,19 +58,19 @@ public class JasonTestBench {
 		EnergyRule erule=null;
 		DataSet data=null;
 
-		algorithm=lookupAlgorithm(args[0]);
+		/*algorithm=lookupAlgorithm(args[0]);
 		erule=lookupEnergyRule(args[1]);
-		data=lookupDataSet(args[2]);
+		data=lookupDataSet(args[2]);*/
 		
 		int numThreads=1;
 		if(args.length==4)
 		{
-			numThreads=Integer.getInteger(args[3]);
+			numThreads=Integer.parseInt(args[3]);
 		}
 		
 		
 		Protein protein=new Protein();
-		protein.parseString(global9b);
+		protein.parseString(global9a);
 		int globalScore=9;
 		
 		BestMoveFirst alg = new BestMoveFirst();
@@ -137,7 +137,17 @@ public class JasonTestBench {
 		return null;
 	}
 
-	private static FoldingAlgorithm lookupAlgorithm(String sAlgorithm) {
+	private static FoldingAlgorithm lookupAlgorithm(String sAlgorithm) 
+	{
+		//Algorithms:
+		//Single Threaded Algorithms
+		//BestMove => BestMoveFirst
+		//Random => RandomWalk
+		//Exhaustive => Exhaustive Search
+		//Multithreaded Algorithms
+		//BestAntColony => BestMoveFirst AntColony
+		//RandomAnyColony => Randomwalk AntColony
+		
 		if(sAlgorithm=="BestMove")
 		{
 			return new BestMoveFirst();
@@ -145,6 +155,10 @@ public class JasonTestBench {
 		else if(sAlgorithm=="Random")
 		{
 			return new RandomWalk();
+		}
+		else if(sAlgorithm=="Exhaustive")
+		{
+			return new ExhaustiveSearch();
 		}
 		return null;
 	}

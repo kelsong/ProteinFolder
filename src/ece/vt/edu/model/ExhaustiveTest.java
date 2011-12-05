@@ -8,9 +8,10 @@ public class ExhaustiveTest {
 	System.out.println("Exhaustive Search Bench...");
 	String testString = "H,H,P,H,P,P,H";
 	String testString2 = "H,H,H,H,H,H,H,H,H,H,H,H,H,H,H";
+	String global3="h,h,h,h,h,h,h,h"; //optimal energy 3
 	
 	Protein protein = new Protein();
-	protein.parseString(testSequence1);
+	protein.parseString(global3);
 
 	System.out.println("Protein Length: "  + protein.getLength());
 	// protein.readFile("protein_test.txt");
@@ -19,9 +20,14 @@ public class ExhaustiveTest {
 
 	HHRule rule = new HHRule();
 	
-	ExhaustiveSearch search = new ExhaustiveSearch(protein, rule);
+	//ExhaustiveSearch search = new ExhaustiveSearch(protein, rule);
+	//int best_score = search.search();
 	
-	int best_score = search.search();
+	ExhaustiveSearch search = new ExhaustiveSearch();
+	boolean success=search.fold(protein, rule, twoD, false);
+	int best_score=search.getBestState().fitness;
+	
+
 	
 	System.out.println("Best score: " + best_score);
 	search.getBestState().printState();
