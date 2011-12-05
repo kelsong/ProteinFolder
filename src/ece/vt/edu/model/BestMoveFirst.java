@@ -154,4 +154,9 @@ public class BestMoveFirst extends FoldingAlgorithm {
 		
 		return true;
 	}
+	
+	public String toString()
+	{
+		return "BestMoveFirst";
+	}
 }

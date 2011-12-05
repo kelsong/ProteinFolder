@@ -20,9 +20,18 @@ public class JasonTestBench {
 	public static void main(String[] args) 
 	{	
 		
-	
-		
 		boolean parseSuccess=parseArguments(args);
+		
+		if(!parseSuccess)
+		{
+			System.out.println("Invalid parse. Exiting...");
+			return;
+		}
+		
+		System.out.println("Algorithm: "+algorithm.toString());
+		System.out.println("EnergyRule: "+erule.toString());
+		System.out.println("Protein: "+data.ProteinSequence);
+		System.out.println("Optimal Score: "+data.globalOptimum);
 		
 		int bestScore=-1;
 		State bestState=null;
@@ -72,6 +81,8 @@ public class JasonTestBench {
 		}
 		else //multithreaded application
 		{
+			manager.startManager();
+			
 			
 		}
 		

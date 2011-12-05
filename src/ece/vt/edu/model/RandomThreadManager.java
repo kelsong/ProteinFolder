@@ -10,6 +10,8 @@ public class RandomThreadManager extends ThreadManager{
 	//build the ability to launch many threads from this manager. 
 	//Not entirely necessary just nice to have it contained.
 
+	State bestState=new State();
+
 	public RandomThreadManager(){
 
 	}
@@ -26,7 +28,16 @@ public class RandomThreadManager extends ThreadManager{
 
 		FolderThread[] runnables= new FolderThread[NUM_THREADS];
 		Thread[] threads = new Thread[NUM_THREADS];
-		for(int i = 0; i<NUM_ITER; i++){
+
+		boolean globalFound=false;
+		long TIME_LIMIT=120000;
+		long startTime=System.currentTimeMillis();
+
+		int best_score=-1;
+
+		//for(int i = 0; i<NUM_ITER; i++)
+		while(!globalFound && (System.currentTimeMillis()-startTime)<TIME_LIMIT)
+		{
 			for(int j = 0; j < NUM_THREADS; j++)
 			{
 				runnables[j] = new FolderThread(null, folder, foldee, fitness);
@@ -44,15 +55,37 @@ public class RandomThreadManager extends ThreadManager{
 					e.printStackTrace();
 				}
 			}
+
+			for(int i=0; i<NUM_THREADS; i++){
+				State st = runnables[i].returnState();
+				if(st == null){
+					System.out.println("Something is wrong");
+				}
+				if(st.getFitness()>=globalOptimal)
+				{
+					globalFound=true;
+				}
+				if(st.getFitness()>best_score)
+				{
+					best_score=st.getFitness();
+					st.CopyInto(bestState);
+				}
+				//System.out.println("Final Score: " + st.getFitness());
+			}
 		}
 
-		for(int i=0; i<NUM_THREADS; i++){
-			State st = runnables[i].returnState();
-			if(st == null){
-				System.out.println("Something is wrong");
-			}
-			System.out.println("Final Score: " + st.getFitness());
+
+		long endTime=System.currentTimeMillis();
+
+		if(globalFound)
+		{
+			System.out.println("Global optimal found in "+(endTime-startTime)+" ms");
 		}
+		else
+		{
+			System.out.println("Global optimal not found. Best score: "+best_score);
+		}
+		bestState.printState();
 	}
 
 	@Override
