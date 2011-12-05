@@ -142,6 +142,9 @@ class State {
 	
 	public void CopyInto(State newState)
 	{
+		newState.bead_loc.clear();
+		newState.acids.clear();
+		
 		newState.fitness=this.fitness;
 		newState.numRestore=this.numRestore;
 		

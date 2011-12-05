@@ -15,7 +15,7 @@ public class AntColonyManager extends ThreadManager {
 	Protein protein;
 	EnergyRule rule;
 	
-	State bestState=null;
+	State bestState=new State();
 
 	public AntColonyManager(FoldingAlgorithm alg, Protein protein_, EnergyRule rule_)
 	{
@@ -55,7 +55,13 @@ public class AntColonyManager extends ThreadManager {
 
 				//test chain to be used in this iteration
 				//Protein testChain = new Protein();
-				Protein testChain = protein;
+				Protein testChain = new Protein();
+				protein.copyInto(testChain);
+				
+				for(int i=0;i<index;i++)
+				{
+					testChain.popFront();
+				}
 				
 				//pull acids from the original chain
 				//testChain.addAcid(protein.getAcid(index));
@@ -75,9 +81,6 @@ public class AntColonyManager extends ThreadManager {
 						
 						//only restore the nth beads from that state
 						state.setNumRestore(index);
-						
-						//pop off the head of the protein, we've already placed it
-						protein.popFront();
 					}
 					
 					//FoldingAlgorithm newAlg = new BestMoveFirst();
@@ -105,7 +108,15 @@ public class AntColonyManager extends ThreadManager {
 					}
 					
 					Protein newProtein=new Protein();
-					testChain.copyInto(newProtein);
+					
+					if(state==null) //we're starting with a clean sate
+					{
+						globalCopy.copyInto(newProtein);
+					}
+					else
+					{
+						testChain.copyInto(newProtein);
+					}
 
 					FolderThread fThread=new FolderThread(state, newAlg, newProtein, newRule);
 					Thread thread=new Thread(fThread);
@@ -124,27 +135,17 @@ public class AntColonyManager extends ThreadManager {
 				//wait for all the threads
 				waitForThreads();
 
-				//Calculate average of all the trials
+				//clear the state pool and add all trials to the pool
 				statePool.clear();
-				
 				for(FolderThread trial : runnables)
 				{
 					State s = trial.returnState();
 					statePool.add(s);
-				}
-
-				//add the states that are greater than the average
-				//to the pool of potential next states
-				//for(State s: statePool)
-				for(int i=0;i<statePool.size();i++)
-				{
-					State s = statePool.get(i);
-
-					//update the bestscore
+					
 					if(s.getFitness()>bestScore)
 					{
 						bestScore=s.getFitness();
-						bestState=s;
+						s.CopyInto(bestState);
 					}
 					
 					if(s.getFitness()>=globalOptimal)
@@ -152,13 +153,20 @@ public class AntColonyManager extends ThreadManager {
 						globalFound=true;
 					}
 					
+					System.out.println("Score: "+s.getFitness());
+				}
+
+				//add the states that are greater than the average
+				//to the pool of potential next states
+				for(int i=0;i<statePool.size();i++)
+				{
+					State s = statePool.get(i);
+					
 					//if score is less than average fitness
-					if(s.getFitness()<(globalOptimal/5))
+					if(s.getFitness()<(globalOptimal/2))
 					{
 						statePool.remove(s);
 					}
-					
-					System.out.println("Score: "+s.fitness);
 				}
 			}
 
