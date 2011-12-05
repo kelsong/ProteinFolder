@@ -2,7 +2,7 @@ package ece.vt.edu.model;
 
 import java.util.List;
 
-public class ExhaustiveSearch {
+public class ExhaustiveSearch extends FoldingAlgorithm{
 
 	Lattice lattice;
 	Protein protein;
@@ -10,6 +10,15 @@ public class ExhaustiveSearch {
 
 	State best_found;
 
+	public ExhaustiveSearch()
+	{
+		lattice=null;
+		protein=null;
+		rule=null;
+		
+		best_found=null;
+	}
+	
 	public ExhaustiveSearch(Protein prot, EnergyRule rules) {
 		protein = prot;
 		rule = rules;
@@ -72,5 +81,23 @@ public class ExhaustiveSearch {
 
 	public State getBestState() {
 		return best_found;
+	}
+
+	@Override
+	boolean fold(Protein protein_, EnergyRule energy_, Lattice lattice_, boolean restoredState) 
+	{
+		if(restoredState)
+		{
+			System.out.println("Exhaustive Search cannot begin from a restored state, you messed up...");
+			return false;
+		}
+		
+		lattice=lattice_;
+		protein=protein_;
+		rule=energy_;
+		
+		int bestScore=search();
+		
+		return true;
 	}
 }
